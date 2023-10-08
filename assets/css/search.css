@@ -1,0 +1,40 @@
+nav ul a:nth-child(1){
+    color: green;
+}
+
+main{
+    padding-top: 150px;
+    width: 100%;
+    height: 100vh;
+}
+
+#search-pane{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#search-pane input{
+    padding: 10px 20px;
+    width: 40vw;
+    font-size: 20px;
+    border: none;
+    background-color: rgba(220, 220, 220, 0.516);
+    border-radius: 20px;
+    
+}
+
+#search-pane img{
+    width: 30px;
+    height: 30px;
+}
+
+@media(max-width:700px){
+    main{
+        padding-top: 100px;
+    }
+    #search-pane input{
+        width: 80vw;
+    }
+}
