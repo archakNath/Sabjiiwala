@@ -50,3 +50,39 @@ backButton.addEventListener("click", function () {
   changeBackgroundImage();
   intervalId = setInterval(changeBackgroundImage, 2000); // Restart the interval
 });
+
+
+const plus_btn = document.querySelectorAll(".plus-sign");
+const minus_btn = document.querySelectorAll(".minus-sign");
+const buy_amt = document.querySelectorAll(".buy-amount");
+
+for (let i = 0; i < buy_amt.length; i++) {
+    const amt = buy_amt[i];
+    amt.addEventListener("click", function (){
+        if(amt.innerHTML == "ADD"){
+            amt.innerHTML = "1";
+            plus_btn[i].style.display = "block";
+            minus_btn[i].style.display = "block";
+            amt.style.cursor = "auto";
+        }
+    })
+}
+
+for (let i = 0; i < plus_btn.length; i++) {
+    const plus = plus_btn[i];
+    const minus = minus_btn[i];
+    plus.addEventListener("click", function(){
+        buy_amt[i].innerHTML = parseFloat(buy_amt[i].innerHTML)+1;
+    })
+
+    minus.addEventListener("click", function(){
+        if(buy_amt[i].innerHTML == 1){
+            buy_amt[i].innerHTML = "ADD";
+            plus_btn[i].style.display = "none";
+            minus_btn[i].style.display = "none";
+            buy_amt[i].style.cursor = "pointer";
+        } else {
+            buy_amt[i].innerHTML = parseFloat(buy_amt[i].innerHTML)-1;
+        }
+    })
+}
