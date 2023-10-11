@@ -39,6 +39,7 @@
 }
 
 .heading-container {
+    margin-top: 30px;
     margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
