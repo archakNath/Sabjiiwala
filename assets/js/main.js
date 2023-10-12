@@ -1,8 +1,8 @@
 let carousel_images = [
-    "https://images.unsplash.com/photo-1592201426550-83c4be24a0a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1931&q=80",
-    "https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto.format&fit=crop&w=2070&q=80",
-    "https://images.unsplash.com/photo-1610348725531-843dff563e2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    "https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+  "https://images.unsplash.com/photo-1592201426550-83c4be24a0a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1931&q=80",
+  "https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto.format&fit=crop&w=2070&q=80",
+  "https://images.unsplash.com/photo-1610348725531-843dff563e2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+  "https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
 ];
 let image_counter = 0;
 let carousel = document.getElementById("carousel");
@@ -57,32 +57,57 @@ const minus_btn = document.querySelectorAll(".minus-sign");
 const buy_amt = document.querySelectorAll(".buy-amount");
 
 for (let i = 0; i < buy_amt.length; i++) {
-    const amt = buy_amt[i];
-    amt.addEventListener("click", function (){
-        if(amt.innerHTML == "ADD"){
-            amt.innerHTML = "1";
-            plus_btn[i].style.display = "block";
-            minus_btn[i].style.display = "block";
-            amt.style.cursor = "auto";
-        }
-    })
+  const amt = buy_amt[i];
+  amt.addEventListener("click", function () {
+    if (amt.innerHTML == "ADD") {
+      amt.innerHTML = "1";
+      plus_btn[i].style.display = "block";
+      minus_btn[i].style.display = "block";
+      amt.style.cursor = "auto";
+    }
+  })
 }
 
 for (let i = 0; i < plus_btn.length; i++) {
-    const plus = plus_btn[i];
-    const minus = minus_btn[i];
-    plus.addEventListener("click", function(){
-        buy_amt[i].innerHTML = parseFloat(buy_amt[i].innerHTML)+1;
-    })
+  const plus = plus_btn[i];
+  const minus = minus_btn[i];
+  plus.addEventListener("click", function () {
+    buy_amt[i].innerHTML = parseFloat(buy_amt[i].innerHTML) + 1;
+  })
 
-    minus.addEventListener("click", function(){
-        if(buy_amt[i].innerHTML == 1){
-            buy_amt[i].innerHTML = "ADD";
-            plus_btn[i].style.display = "none";
-            minus_btn[i].style.display = "none";
-            buy_amt[i].style.cursor = "pointer";
-        } else {
-            buy_amt[i].innerHTML = parseFloat(buy_amt[i].innerHTML)-1;
-        }
-    })
+  minus.addEventListener("click", function () {
+    if (buy_amt[i].innerHTML == 1) {
+      buy_amt[i].innerHTML = "ADD";
+      plus_btn[i].style.display = "none";
+      minus_btn[i].style.display = "none";
+      buy_amt[i].style.cursor = "pointer";
+    } else {
+      buy_amt[i].innerHTML = parseFloat(buy_amt[i].innerHTML) - 1;
+    }
+  })
+}
+
+let item_imgs = document.querySelectorAll(".item-list .indi-item > img");
+let item_names = document.querySelectorAll(".item-list .indi-item h5");
+let item_discounts = document.querySelectorAll(".item-list .indi-item span");
+let item_price = document.querySelectorAll(".item-list .price-container p:nth-child(1)");
+let item_oldprice = document.querySelectorAll(".item-list .price-container p:nth-child(2)");
+let item_qty = document.querySelectorAll(".item-list .indi-item > p");
+for (let i = 0; i < item_imgs.length; i++) {
+  let img = item_imgs[i];
+  let name = item_names[i];
+  let discount = item_discounts[i];
+  let price = item_price[i];
+  let oldprice = item_oldprice[i];
+  let quantity = item_qty[i];
+  img.addEventListener("click", () => {
+    localStorage.setItem("product-name", name.innerHTML);
+    localStorage.setItem("product-image", img.src);
+    localStorage.setItem("product-quantity", quantity.innerHTML);
+    localStorage.setItem("product-discount", discount.innerHTML)
+    localStorage.setItem("product-price", price.innerHTML);
+    localStorage.setItem("product-oldprice", oldprice.innerHTML);
+    window.location.href = "/pages/product.html";
+  })
+
 }
