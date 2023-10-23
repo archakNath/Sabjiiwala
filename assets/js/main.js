@@ -101,13 +101,13 @@ for (let i = 0; i <= item_imgs.length; i++) {
   let oldprice = item_oldprice[i];
   let quantity = item_qty[i];
   img.addEventListener("click", () => {
+    console.log("Image clicked!"); // Add this line for debugging
     localStorage.setItem("product-name", name.innerHTML);
     localStorage.setItem("product-image", img.src);
     localStorage.setItem("product-quantity", quantity.innerHTML);
-    localStorage.setItem("product-discount", discount.innerHTML.substring(0, discount.innerHTML.indexOf("%")))
+    localStorage.setItem("product-discount", discount.innerHTML.substring(0, (discount.innerHTML).indexOf("%")))
     localStorage.setItem("product-price", price.innerHTML);
     localStorage.setItem("product-oldprice", oldprice.innerHTML);
-    window.location.href = "/pages/product.html";
-  })
-
+    window.location.href = "/pages/product.html"
+  });
 }

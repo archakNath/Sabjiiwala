@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sabjiiwala | Admin</title>
+
+    <link rel="stylesheet" href="/assets/css/universal.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
 </head>
+
 <body>
-    
+    <header>
+        <button id="product-btn">PRODUCT</button>
+        <button id="page-btn">PAGE</button>
+    </header>
+
+    <section id="product-section">
+        <button id="add-product-btn">Show Add product</button>
+        <section id="add-product-section">
+            <div>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <img src="/assets/images/default.jpg" alt="" id="selectedImage">
+                <div>
+                    <p id="image-name">image name</p>
+                    <button id="selectImageButton">Select Image</button>
+                    <button id="upload-image">Upload Image</button>
+                    <p class="errorMsg"></p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section id="page-section">
+        <h1>page section</h1>
+    </section>
+
+    <script src="/assets/js/admin.js"></script>
 </body>
+
 </html>

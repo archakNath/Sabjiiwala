@@ -21,7 +21,6 @@
             <input type="password" name="password" id="password-input" placeholder="Password">
             <button type="submit" id="loginBtn">Login</button>
             <p id="error-message"></p>
-            <div>Don't have an account? <a href="#">Click here</a></div>
         </div>
     </div>
 
@@ -63,26 +62,40 @@
                 localStorage.setItem("uid", "admin");
                 window.open("/pages/admin.html", "_self");
             } else if (email != '' && password != '') {
-                signInWithEmailAndPassword(auth, email, password)
+                createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         // Signed in 
                         let user = userCredential.user;
                         localStorage.setItem("uid", user.uid);
-                        window.open("/index.html", "_self");
+                        window.open("/pages/register.html", "_self");
                         // ...
                     })
                     .catch((error) => {
                         let errorCode = error.code;
                         let errorMessage = error.message;
-                        if(errorMessage == "Firebase: Error (auth/invalid-login-credentials)."){
-                            errorMsg.innerHTML = "Account does not exists/wrong user credentials."
+                        if (errorMessage == "Firebase: Error (auth/email-already-in-use).") {
+                            signInWithEmailAndPassword(auth, email, password)
+                                .then((userCredential) => {
+                                    // Signed in 
+                                    let user = userCredential.user;
+                                    localStorage.setItem("uid", user.uid);
+                                    window.open("/pages/dashboard.html", "_self");
+                                    // ...
+                                })
+                                .catch((error) => {
+                                    errorCode = error.code;
+                                    errorMessage = error.message;
+                                    errorMsg.innerHTML = error;
+                                });
+
                         } else {
                             errorMsg.innerHTML = errorMessage;
                         }
+                        // ..
                     });
-            } else if (email == '') {
+            } else if(email == ''){
                 errorMsg.innerHTML = "Enter a valid email"
-            } else if (password == '') {
+            } else if(password == ''){
                 errorMsg.innerHTML = 'Enter a valid password'
             }
         });
