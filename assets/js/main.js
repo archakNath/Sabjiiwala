@@ -93,7 +93,7 @@ let item_discounts = document.querySelectorAll(".item-list .indi-item span");
 let item_price = document.querySelectorAll(".item-list .price-container p:nth-child(1)");
 let item_oldprice = document.querySelectorAll(".item-list .price-container p:nth-child(2)");
 let item_qty = document.querySelectorAll(".item-list .indi-item > p");
-for (let i = 0; i < item_imgs.length; i++) {
+for (let i = 0; i <= item_imgs.length; i++) {
   let img = item_imgs[i];
   let name = item_names[i];
   let discount = item_discounts[i];
@@ -104,7 +104,7 @@ for (let i = 0; i < item_imgs.length; i++) {
     localStorage.setItem("product-name", name.innerHTML);
     localStorage.setItem("product-image", img.src);
     localStorage.setItem("product-quantity", quantity.innerHTML);
-    localStorage.setItem("product-discount", discount.innerHTML)
+    localStorage.setItem("product-discount", discount.innerHTML.substring(0, discount.innerHTML.indexOf("%")))
     localStorage.setItem("product-price", price.innerHTML);
     localStorage.setItem("product-oldprice", oldprice.innerHTML);
     window.location.href = "/pages/product.html";

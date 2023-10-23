@@ -1,6 +1,12 @@
 const product_image = document.getElementById('product-image');
 const product_title = document.getElementById('product-title');
 const product_price = document.getElementById('product-price');
-product_image.src = localStorage.getItem("product-image")
-product_title.innerHTML = localStorage.getItem("product-name")
-product_price.innerHTML = localStorage.getItem("product-price")
+const product_oldprice = document.getElementById('product-oldprice');
+const product_discount = document.getElementById('product-discount');
+const product_quantity = document.getElementById('product-quantity');
+product_image.src = localStorage.getItem("product-image");
+product_title.innerHTML = localStorage.getItem("product-name");
+product_price.innerHTML = localStorage.getItem("product-price");
+product_oldprice.innerHTML = 'MRP '+ localStorage.getItem("product-oldprice");
+product_discount.innerHTML = localStorage.getItem("product-discount") + "% OFF";
+product_quantity.innerHTML = localStorage.getItem("product-quantity");

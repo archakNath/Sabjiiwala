@@ -87,6 +87,15 @@ nav ul a:hover{
     border-radius: 100px;
 }
 
+.login button{
+    padding: 8px 12px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 #menu-button{
     display: none;
     width: 24px;
@@ -109,5 +118,10 @@ nav ul a:hover{
 
     #menu-button{
         display: block;
+    }
+
+    .login button{
+        margin-top: 20px;
+        /* width: 100%; */
     }
 }

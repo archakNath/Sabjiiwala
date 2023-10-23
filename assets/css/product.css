@@ -19,6 +19,24 @@
     padding-top: 100px;
 }
 
+#product-price{
+    font-weight: 600;
+    display: inline-block;
+}
+
+#product-discount{
+    display: inline;
+}
+
+#product-oldprice{
+    text-decoration: line-through;
+    font-weight: normal;
+}
+
+#product-quantity{
+    font-size: 20px;
+}
+
 .display-container:nth-child(1) img{
     width: 70%;
     height: 80%;

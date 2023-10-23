@@ -18,3 +18,8 @@ menubtn.onclick = () => {
         menubtn.src = "/assets/images/icons/menu.png"
     }
 }
+
+const login_button = document.getElementById("login-button");
+login_button.addEventListener("click", function (){
+    window.location.href = "/pages/login.html"
+})
