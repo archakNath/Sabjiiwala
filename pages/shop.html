@@ -218,8 +218,8 @@
                         localStorage.setItem("product-image", element.val().Image);
                         localStorage.setItem("product-quantity", element.val().Base+'g');
                         localStorage.setItem("product-discount", element.val().Discount)
-                        localStorage.setItem("product-price", "₹" +element.val().Price);
-                        localStorage.setItem("product-oldprice", "₹" +(original_price - (original_price * discount)));
+                        localStorage.setItem("product-oldprice", "₹" +element.val().Price);
+                        localStorage.setItem("product-price", "₹" +(original_price - (original_price * discount)));
                         window.location.href = "/pages/product.html"
                     });
 

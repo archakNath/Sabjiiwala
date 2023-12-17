@@ -6,9 +6,11 @@ const product_discount = document.getElementById('product-discount');
 const product_quantity = document.getElementById('product-quantity');
 const previous_button = document.getElementById('previous-button');
 const forward_button = document.getElementById('forward-button');
+const image_number = document.getElementById('image-count');
 var images = JSON.parse(localStorage.getItem("product-image"))
 product_image.src = images[0];
 image_count = 0;
+image_number.textContent = '1 / '+images.length;
 if(images.length > 1){
     forward_button.style.display = 'block';
     previous_button.style.display = 'block';
@@ -19,6 +21,8 @@ forward_button.onclick = () => {
     } else {
         image_count++;
     }
+    image_number.textContent = (image_count+1) + ' / '+images.length;
+    product_image.src = '/assets/images/default.jpg';
     product_image.src = images[image_count];
 }
 previous_button.onclick = () => {
@@ -27,6 +31,8 @@ previous_button.onclick = () => {
     } else {
         image_count--;
     }
+    product_image.src = '/assets/images/default.jpg';
+    image_number.textContent = (image_count+1) + ' / '+images.length;
     product_image.src = images[image_count];
 }
 product_title.innerHTML = localStorage.getItem("product-name");
