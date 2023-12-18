@@ -70,7 +70,7 @@
     border-radius: 10px;
     overflow: hidden;
     min-width: 200px;
-    min-height: 200px;
+    height: 200px;
     cursor: pointer;
 }
 

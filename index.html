@@ -410,31 +410,94 @@
         const analytics = getAnalytics(app);
 
         // Initialization and declaration
-
-        // Retrieve and show data
+        // Move dataRef to a higher scope
         var database = getDatabase();
-        const categorylist = document.querySelector("#categories .categories-container")
         var dataRef = ref(database);
 
-        get(child(dataRef, "category"))
-            .then((snapshot) => {
-                var values = [];
-                snapshot.forEach(element => {
-                    var category_item = document.createElement('div');
-                    var category_image = document.createElement('img');
-                    var category_name = document.createElement('p');
+        // Retrieve and show data
+        const categorylist = document.querySelector("#categories .categories-container");
+        get(child(dataRef, "category")).then((snapshot) => {
+            var values = [];
+            snapshot.forEach((element) => {
+                var category_item = document.createElement("div");
+                var category_image = document.createElement("img");
+                var category_name = document.createElement("p");
 
-                    category_image.src = element.val().Image;
-                    category_name.textContent = element.val().Name;
+                category_image.src = element.val().Image;
+                category_name.textContent = element.val().Name;
 
-                    category_item.setAttribute('class', 'categories-item');
-                    category_item.appendChild(category_image);
-                    category_item.appendChild(category_name);
-                    categorylist.appendChild(category_item);
+                category_item.setAttribute("class", "categories-item");
+                category_item.appendChild(category_image);
+                category_item.appendChild(category_name);
+                categorylist.appendChild(category_item);
+            });
+        });
+
+        async function fillArrayWithData() {
+            try {
+                const snapshot = await get(child(dataRef, "banner"));
+                const data = snapshot.val();
+                const carousel_images = [];
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        carousel_images.push(data[key].Image);
+                    }
+                }
+
+                let image_counter = 0;
+                let carousel = document.getElementById("carousel");
+                let preloadedImages = [];
+
+                // Function to preload images
+                function preloadImages() {
+                    for (let i = 0; i < carousel_images.length; i++) {
+                        let img = new Image();
+                        img.src = carousel_images[i];
+                        preloadedImages.push(img);
+                    }
+                }
+
+                // Preload all images
+                preloadImages();
+
+                // Function to change background image
+                function changeBackgroundImage() {
+                    let image = preloadedImages[image_counter % preloadedImages.length];
+                    carousel.style.backgroundImage = "url(" + image.src + ")";
+                    image_counter++;
+                }
+
+                // Set the initial background image to the first image
+                carousel.style.backgroundImage = "url(" + preloadedImages[0].src + ")";
+
+                // Set an interval to change background image
+                let intervalId = setInterval(changeBackgroundImage, 2000);
+
+                // Get the forward and backward buttons by class name
+                let forwardButton = document.getElementById("carousel-forward");
+                let backButton = document.getElementById("carousel-back");
+
+                // Add event listeners for the forward and backward buttons
+                forwardButton.addEventListener("click", function () {
+                    clearInterval(intervalId); // Stop the automatic interval
+                    changeBackgroundImage();
+                    intervalId = setInterval(changeBackgroundImage, 2000); // Restart the interval
+                });
+
+                backButton.addEventListener("click", function () {
+                    clearInterval(intervalId); // Stop the automatic interval
+                    image_counter = (image_counter - 2 + preloadedImages.length) % preloadedImages.length;
+                    changeBackgroundImage();
+                    intervalId = setInterval(changeBackgroundImage, 2000); // Restart the interval
+                });
+
+            } catch (error) {
+                console.error("Error reading data:", error.message);
+            }
+        }
+        fillArrayWithData();
 
 
-                })
-            })
     </script>
 </body>
 
