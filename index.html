@@ -49,39 +49,8 @@
 
         <div class="heading-container">
             <h2 class="heading">Shop by Category</h2>
-            <p>See all</p>
         </div>
         <div class="categories-container">
-            <div class="categories-item">
-                <img src="https://images.unsplash.com/photo-1582979512210-99b6a53386f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
-                    alt="">
-                <p>Fruits</p>
-            </div>
-            <div class="categories-item">
-                <img src="https://plus.unsplash.com/premium_photo-1668673865474-5daac6167140?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="">
-                <p>Vegetable</p>
-            </div>
-            <div class="categories-item">
-                <img src="https://images.unsplash.com/photo-1581600140682-d4e68c8cde32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1888&q=80"
-                    alt="">
-                <p>Spices</p>
-            </div>
-            <div class="categories-item">
-                <img src="https://plus.unsplash.com/premium_photo-1671130295987-13d3b3b4e9dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
-                    alt="">
-                <p>Lentils</p>
-            </div>
-            <div class="categories-item">
-                <img src="https://images.unsplash.com/photo-1585337913966-114ba3cf1f80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
-                    alt="">
-                <p>Flowers</p>
-            </div>
-            <div class="categories-item">
-                <img src="https://images.unsplash.com/photo-1628815870980-f416105d89b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
-                    alt="">
-                <p>Dairy</p>
-            </div>
         </div>
     </section>
 
@@ -414,6 +383,59 @@
 
     <script src="/assets/js/universal.js"></script>
     <script src="/assets/js/main.js"></script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js";
+        import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-storage.js";
+        import { getDatabase, ref, set, child, get, update, remove } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBz9wEi7QGFMIHIurcHoR6A-V9siWMUng",
+            authDomain: "sabjiiwala-ef33d.firebaseapp.com",
+            projectId: "sabjiiwala-ef33d",
+            storageBucket: "sabjiiwala-ef33d.appspot.com",
+            messagingSenderId: "133860441354",
+            appId: "1:133860441354:web:f29e8953a336bb5d8f4ef3",
+            measurementId: "G-DGXTDJWKM1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        // Initialization and declaration
+
+        // Retrieve and show data
+        var database = getDatabase();
+        const categorylist = document.querySelector("#categories .categories-container")
+        var dataRef = ref(database);
+
+        get(child(dataRef, "category"))
+            .then((snapshot) => {
+                var values = [];
+                snapshot.forEach(element => {
+                    var category_item = document.createElement('div');
+                    var category_image = document.createElement('img');
+                    var category_name = document.createElement('p');
+
+                    category_image.src = element.val().Image;
+                    category_name.textContent = element.val().Name;
+
+                    category_item.setAttribute('class', 'categories-item');
+                    category_item.appendChild(category_image);
+                    category_item.appendChild(category_name);
+                    categorylist.appendChild(category_item);
+
+
+                })
+            })
+    </script>
 </body>
 
 </html>
