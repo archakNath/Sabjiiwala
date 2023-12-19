@@ -430,6 +430,11 @@
                 category_item.appendChild(category_image);
                 category_item.appendChild(category_name);
                 categorylist.appendChild(category_item);
+
+                category_item.onclick = () => {
+                    localStorage.setItem("category", element.val().Name);
+                    window.location.href = "/pages/shop.html";
+                }
             });
         });
 

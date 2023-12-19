@@ -23,3 +23,8 @@ const login_button = document.getElementById("login-button");
 login_button.addEventListener("click", function (){
     window.location.href = "/pages/login.html"
 })
+
+const nav_shop = document.querySelector('nav ul a:nth-child(2)');
+nav_shop.onclick = () => {
+    localStorage.setItem("category", 'all');
+}
