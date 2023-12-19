@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +9,21 @@
     <link rel="stylesheet" href="/assets/css/search.css">
     <link rel="shortcut icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
     <header>
         <img src="/assets/images/logo.png" alt="" id="logo">
         <nav>
             <ul id="nav-list">
-                <a href="/pages/search.html"><img src="/assets/images/icons/search.png" id="search-image" alt=""><li>Search</li></a>
-                <a href="#"><img src="/assets/images/icons/shop.png" alt=""><li>Shop</li></a>
-                <a href="#"><img src="/assets/images/icons/contact-mail.png" id="contact-image" alt=""><li>Contact</li></a>
+                <a href="/pages/search.html"><img src="/assets/images/icons/search.png" id="search-image" alt="">
+                    <li>Search</li>
+                </a>
+                <a href="#"><img src="/assets/images/icons/shop.png" alt="">
+                    <li>Shop</li>
+                </a>
+                <a href="#"><img src="/assets/images/icons/contact-mail.png" id="contact-image" alt="">
+                    <li>Contact</li>
+                </a>
                 <a href="#" id="cart-link">
                     <img src="/assets/images/icons/shopping-cart.png" alt="">
                     <li>Cart</li>
@@ -31,8 +39,90 @@
             <input type="text" name="search" id="" placeholder="Search for Vegies ;)">
             <img src="/assets/images/icons/search.png" alt="">
         </div>
+        <div id="product-list">
+        </div>
     </main>
 
     <script src="/assets/js/universal.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js";
+        import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-storage.js";
+        import { getDatabase, ref, set, child, get, update, remove } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBz9wEi7QGFMIHIurcHoR6A-V9siWMUng",
+            authDomain: "sabjiiwala-ef33d.firebaseapp.com",
+            projectId: "sabjiiwala-ef33d",
+            storageBucket: "sabjiiwala-ef33d.appspot.com",
+            messagingSenderId: "133860441354",
+            appId: "1:133860441354:web:f29e8953a336bb5d8f4ef3",
+            measurementId: "G-DGXTDJWKM1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        // Initialization and declaration
+        // Move dataRef to a higher scope
+        var database = getDatabase();
+        var dataRef = ref(database);
+
+        // Retrieve and show data
+        const list = document.getElementById('product-list');
+        var searchInput = document.querySelector('#search-pane input');
+        searchInput.addEventListener('input', function () {
+            if(searchInput.value == ''){
+                list.style.display = 'none';
+            } else {
+                list.style.display = 'block';
+            }
+            list.innerHTML = '';
+            get(child(dataRef, "products")).then((snapshot) => {
+                var values = [];
+                snapshot.forEach((element) => {
+
+                    // <div class="list-item">
+                    //     <img src="/assets/images/default.jpg" alt="">
+                    //     <span>Product Name</span>
+                    // </div>
+                    if (element.val().Name.toLowerCase().includes(searchInput.value.toLowerCase())) {
+                        var list_item = document.createElement('div');
+                        var image = document.createElement('img');
+                        var product_name = document.createElement('span');
+
+                        list_item.setAttribute('class', 'list-item');
+                        var image_list = JSON.parse(element.val().Image);
+                        image.src = image_list[0];
+                        product_name.textContent = element.val().Name;
+
+                        list_item.appendChild(image);
+                        list_item.appendChild(product_name);
+                        list.appendChild(list_item);
+
+                        list_item.addEventListener("click", () => {
+                            localStorage.setItem("product-name", element.val().Name);
+                            localStorage.setItem("product-image", element.val().Image);
+                            localStorage.setItem("product-quantity", element.val().Base + 'g');
+                            localStorage.setItem("product-discount", element.val().Discount);
+                            localStorage.setItem("product-oldprice", "₹" + element.val().Price);
+                            localStorage.setItem("product-price", "₹" + (element.val().Price - (element.val().Price * element.val().Discount / 100)));
+                            window.location.href = '/pages/product.html';
+                        });
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
 </body>
+
 </html>
