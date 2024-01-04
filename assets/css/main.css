@@ -1,3 +1,15 @@
+#card{
+    position: fixed;
+    z-index: 999;
+    bottom: 10px;
+    right: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid green;
+    cursor: pointer;
+}
+
 #hero {
     width: 100%;
     padding-top: 70px;
@@ -46,11 +58,13 @@
     align-items: baseline;
 }
 
-.heading-container p {
+.heading-container a {
+    color: black;
+    text-decoration: none;
     cursor: pointer;
 }
 
-.heading-container p:hover {
+.heading-container a:hover {
     color: rgb(0, 128, 0);
 }
 
