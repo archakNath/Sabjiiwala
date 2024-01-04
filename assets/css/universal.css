@@ -14,7 +14,11 @@
 }
 
 body{
-    /* background-color: var(--off-white); */
+    background-color: var(--off-white);
+}
+
+.heading{
+    color: var(--dark-green);
 }
 
 header{
@@ -25,6 +29,7 @@ header{
     /* align-items: center; */
     padding: 17px 30px;
     position: fixed;
+    transition: all .2s;
 }
 
 #logo-container{
@@ -97,8 +102,8 @@ nav ul a:hover{
 
 .login button{
     padding: 8px 12px;
-    background-color: green;
-    color: white;
+    background-color: var(--dark-green);
+    color: var(--off-white);
     border: none;
     border-radius: 10px;
     cursor: pointer;
