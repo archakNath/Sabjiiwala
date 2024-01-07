@@ -181,6 +181,7 @@ main {
     justify-content: space-evenly;
     gap: 15px;
     flex-wrap: wrap;
+    mix-blend-mode:multiply;
 }
 
 #key-notes .content {
