@@ -47,7 +47,7 @@
             <div class="text-box">
                 <h1>Sabjiiwala</h1>
                 <h4>Freshly picked Organic farm produce <br> at your door step</h4>
-                <button>Explore</button>
+                <button id="explore-button">Explore</button>
             </div>
         </div>
     </section>
@@ -71,44 +71,47 @@
         </div>
     </section>
 
-    <section id="about">
-        <div class="about-container">
-            <img src="/assets/images/farm-bg.jpg" alt="">
-        </div>
-        <div class="about-container">
-            <h3>About Us</h3>
-            <h1>Sabjiiwala</h1>
-            <p>Discover fresh, farm-picked veggies at Sabjiiwala. Shop online for premium groceries delivered to your
-                door. Redefining your grocery experience for convenience and quality.</p>
-            <button>READ MORE</button>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-container">
-            <img src="/assets/images/logo.png" alt="">
-            <h4>Sabjiiwala | Home</h4>
-            <p>Fresh Farm-picked vegies at your doorstep.</p>
-        </div>
-        <hr>
-        <div class="footer-container">
-            <h4>Quick links</h4>
-            <a href="#">Home</a>
-            <a href="#">Search</a>
-            <a href="#">About us</a>
-            <a href="#">Cart</a>
-        </div>
-        <div class="footer-container">
-            <h4>Connect with us</h4>
-            <p>+91 98765 54321</p>
-            <p>info@sabjiiwala.com</p>
-            <div class="social">
-                <img src="/assets/images/icons/facebook.png" alt="">
-                <img src="/assets/images/icons/instagram.png" alt="">
-                <img src="/assets/images/icons/twitter.png" alt="">
+    <div class="footer-bg">
+        <section id="about">
+            <div class="about-container">
+                <img src="/assets/images/farm-bg.jpg" alt="">
             </div>
-        </div>
-    </footer>
+            <div class="about-container">
+                <h3>About Us</h3>
+                <h1>Sabjiiwala</h1>
+                <p>Discover fresh, farm-picked veggies at Sabjiiwala. Shop online for premium groceries delivered to
+                    your
+                    door. Redefining your grocery experience for convenience and quality.</p>
+                <button>READ MORE</button>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-container">
+                <img src="/assets/images/logo.png" alt="">
+                <h4>Sabjiiwala | Home</h4>
+                <p>Fresh Farm-picked vegies at your doorstep.</p>
+            </div>
+            <hr>
+            <div class="footer-container">
+                <h4>Quick links</h4>
+                <a href="#">Home</a>
+                <a href="#">Search</a>
+                <a href="#">About us</a>
+                <a href="#">Cart</a>
+            </div>
+            <div class="footer-container">
+                <h4>Connect with us</h4>
+                <p>+91 98765 54321</p>
+                <p>info@sabjiiwala.com</p>
+                <div class="social">
+                    <img src="/assets/images/icons/facebook.png" alt="">
+                    <img src="/assets/images/icons/instagram.png" alt="">
+                    <img src="/assets/images/icons/twitter.png" alt="">
+                </div>
+            </div>
+        </footer>
+    </div>
 
 
     <script src="/assets/js/universal.js"></script>
@@ -340,7 +343,7 @@
 
         var card = document.getElementById('card');
         let cart_items = JSON.parse(sessionStorage.getItem('cart_items'));
-        if(cart_items == null){
+        if (cart_items == null) {
             card.style.display = 'none';
             console.log('not there')
         } else {
@@ -348,6 +351,11 @@
             console.log(cart_items);
         }
 
+        const explore_button = document.getElementById('explore-button');
+        explore_button.onclick = () => {
+            localStorage.setItem("category", 'all');
+            window.location.href = '/pages/shop.html';
+        }
     </script>
 </body>
 

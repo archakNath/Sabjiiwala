@@ -301,3 +301,18 @@
         width: 90%;
     }
 }
+
+.footer-bg{
+    background-image: url(/assets/images/footer-background.png);
+    background-size: cover;
+    background-position: top;
+}
+
+footer{
+    background-color: transparent;
+    color: white;
+}
+
+footer a{
+    color: white;
+}
