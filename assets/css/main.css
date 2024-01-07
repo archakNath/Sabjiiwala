@@ -352,12 +352,13 @@ main {
 }
 
 #about .about-container:nth-child(2) h3 {
-    color: rgba(0, 128, 0, 0.49);
+    color: var(--dark-green);
 }
 
 #about .about-container:nth-child(2) h1 {
     font-size: 50px;
-    color: green;
+    color: var(--dark-green);
+    text-shadow: 0 0 10px var(--light-green);
 }
 
 #about .about-container:nth-child(2) button {
@@ -365,11 +366,17 @@ main {
     margin-top: 30px;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid green;
-    background-color: rgba(0, 128, 0, 0.353);
-    color: green;
+    border: 1px solid var(--dark-green);
+    background-color: var(--dark-green);
+    color: var(--off-white);
     font-size: 18px;
     cursor: pointer;
+    transition: all .2s;
+}
+
+#about .about-container:nth-child(2) button:hover{
+    background-color: var(--light-green);
+    color: var(--dark-green);
 }
 
 @media(max-width:700px) {
