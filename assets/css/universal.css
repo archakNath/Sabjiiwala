@@ -90,7 +90,7 @@ nav ul a li{
 }
 
 nav ul a:hover{
-    color: var(--light-green);
+    color: var(--dark-green);
 }
 
 #cart-link{
