@@ -38,6 +38,16 @@
         <img src="/assets/images/icons/menu.png" alt="" id="menu-button">
     </header>
 
+    <div id="card">
+        <div>
+            <p id="card-details">1 item | ₹20</p>
+        </div>
+        <div id="card-button">
+            <p>view cart</p>
+            <img src="/assets/images/icons/shopping-cart.png" alt="">
+        </div>
+    </div>
+
     <section>
         <div class="item-list"></div>
     </section>
@@ -109,209 +119,195 @@
         const datalist = document.querySelector(".item-list")
         var dataRef = ref(database);
 
-        if (localStorage.getItem('category') == 'all') {
-            get(child(dataRef, "products"))
-                .then((snapshot) => {
-                    var values = [];
-                    snapshot.forEach(element => {
-                        let indi_item = document.createElement('div');
-                        let discount_text = document.createElement('span');
-                        let product_image = document.createElement('img');
-                        let product_name = document.createElement('h5');
-                        let product_base = document.createElement('p');
-                        let purchase_container = document.createElement('div');
-                        let price_container = document.createElement('div');
-                        let new_price = document.createElement('p');
-                        let old_price = document.createElement('p');
-                        let buy_container = document.createElement('div');
-                        let minus_sign = document.createElement('img');
-                        let buy_amount = document.createElement('p');
-                        let plus_sign = document.createElement('img');
+        const list1 = document.querySelector(".item-list");
+        get(child(dataRef, "products")).then((snapshot) => {
+            var values = [];
+            let productCount = 0; // Track the number of displayed products
+            snapshot.forEach(element => {
+                if (element.val().Category == localStorage.getItem('category') || localStorage.getItem('category') == 'all') {
+                    if (productCount >= 10) {
+                        return; // Exit the loop if 10 products are already displayed
+                    }
+                    let indi_item = document.createElement('div');
+                    let discount_text = document.createElement('span');
+                    let product_image = document.createElement('img');
+                    let product_name = document.createElement('h5');
+                    let product_base = document.createElement('p');
+                    let purchase_container = document.createElement('div');
+                    let price_container = document.createElement('div');
+                    let new_price = document.createElement('p');
+                    let old_price = document.createElement('p');
+                    let buy_container = document.createElement('div');
+                    let minus_sign = document.createElement('img');
+                    let buy_amount = document.createElement('p');
+                    let plus_sign = document.createElement('img');
 
-                        // product details has been filled
-                        indi_item.setAttribute('class', 'indi-item');
-                        discount_text.innerHTML = element.val().Discount + '% <br> OFF';
-                        discount_text.setAttribute('class', 'discount');
-                        product_image.src = JSON.parse(element.val().Image)[0];
-                        product_name.textContent = element.val().Name;
-                        product_base.textContent = element.val().Base + 'g';
-                        purchase_container.setAttribute('class', 'purchase-container');
-                        price_container.setAttribute('class', 'price-container');
-                        let original_price = element.val().Price;
-                        let discount = element.val().Discount / 100;
-                        new_price.textContent = "₹" + (original_price - (original_price * discount));
-                        old_price.textContent = "₹" + original_price;
-                        buy_container.setAttribute('class', 'buy-container');
-                        minus_sign.setAttribute('class', 'minus-sign');
-                        minus_sign.src = '/assets/images/icons/minus-sign.png';
-                        minus_sign.style.width = '15px'
-                        minus_sign.style.border = '0';
-                        buy_amount.setAttribute('class', 'buy-amount');
-                        buy_amount.innerText = 'ADD';
-                        plus_sign.setAttribute('class', 'plus-sign');
-                        plus_sign.src = '/assets/images/icons/plus.png';
-                        plus_sign.style.width = '15px'
-                        plus_sign.style.border = '0'
+                    // product details has been filled
+                    indi_item.setAttribute('class', 'indi-item');
+                    discount_text.innerHTML = element.val().Discount + '% <br> OFF';
+                    discount_text.setAttribute('class', 'discount');
+                    product_image.src = JSON.parse(element.val().Image)[0];
+                    product_name.textContent = element.val().Name;
+                    product_base.textContent = element.val().Base + 'g';
+                    purchase_container.setAttribute('class', 'purchase-container');
+                    price_container.setAttribute('class', 'price-container');
+                    let original_price = Math.round(element.val().Price * element.val().Base / 1000);
+                    let discount = element.val().Discount / 100;
+                    new_price.textContent = "₹" + (original_price - (original_price * discount));
+                    old_price.textContent = "₹" + original_price;
+                    buy_container.setAttribute('class', 'buy-container');
+                    minus_sign.setAttribute('class', 'minus-sign');
+                    minus_sign.src = '/assets/images/icons/minus-sign.png';
+                    minus_sign.style.width = '15px'
+                    minus_sign.style.border = '0';
+                    buy_amount.setAttribute('class', 'buy-amount');
+                    buy_amount.innerText = 'ADD';
+                    plus_sign.setAttribute('class', 'plus-sign');
+                    plus_sign.src = '/assets/images/icons/plus.png';
+                    plus_sign.style.width = '15px'
+                    plus_sign.style.border = '0'
 
-                        if (discount == '0') {
-                            discount_text.style.display = 'none';
-                            old_price.style.display = 'none';
+                    if (discount == '0') {
+                        discount_text.style.display = 'none';
+                        old_price.style.display = 'none';
+                    }
+
+                    let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                    let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                    if (indexOfItem != -1) {
+                        buy_amount.innerText = cart_items[indexOfItem].Times;
+                        minus_sign.style.display = 'block';
+                        buy_amount.style.cursor = 'auto';
+                        plus_sign.style.display = 'block';
+                    }
+
+
+                    indi_item.appendChild(discount_text);
+                    indi_item.appendChild(product_image);
+                    indi_item.appendChild(product_name);
+                    indi_item.appendChild(product_base);
+                    price_container.appendChild(new_price);
+                    price_container.appendChild(old_price);
+                    purchase_container.appendChild(price_container);
+                    buy_container.appendChild(minus_sign);
+                    buy_container.appendChild(buy_amount);
+                    buy_container.appendChild(plus_sign);
+                    purchase_container.appendChild(buy_container);
+                    indi_item.appendChild(purchase_container);
+                    list1.appendChild(indi_item);
+                    productCount++;
+
+                    buy_amount.onclick = () => {
+                        if (buy_amount.innerText == 'ADD') {
+                            buy_amount.innerText = '1';
+                            minus_sign.style.display = 'block';
+                            buy_amount.style.cursor = 'auto';
+                            plus_sign.style.display = 'block';
                         }
 
+                        let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                        var item = {
+                            Name: element.val().Name,
+                            Price: element.val().Price,
+                            Quantity: element.val().Quantity,
+                            Discount: element.val().Discount,
+                            Base: element.val().Base,
+                            Image: element.val().Image,
+                            Times: 1
+                        };
+                        cart_items.push(item);
+                        sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
+                        cart_refresh();
+                    };
 
-                        indi_item.appendChild(discount_text);
-                        indi_item.appendChild(product_image);
-                        indi_item.appendChild(product_name);
-                        indi_item.appendChild(product_base);
-                        price_container.appendChild(new_price);
-                        price_container.appendChild(old_price);
-                        purchase_container.appendChild(price_container);
-                        buy_container.appendChild(minus_sign);
-                        buy_container.appendChild(buy_amount);
-                        buy_container.appendChild(plus_sign);
-                        purchase_container.appendChild(buy_container);
-                        indi_item.appendChild(purchase_container);
-                        datalist.appendChild(indi_item);
 
-                        buy_amount.onclick = () => {
-                            if (buy_amount.innerText == 'ADD') {
-                                buy_amount.innerText = '1';
-                                minus_sign.style.display = 'block';
-                                buy_amount.style.cursor = 'auto';
-                                plus_sign.style.display = 'block';
-                            }
+                    minus_sign.onclick = () => {
+                        if (buy_amount.innerText == 1) {
+                            buy_amount.innerText = 'ADD';
+                            minus_sign.style.display = 'none';
+                            buy_amount.style.cursor = 'pointer';
+                            plus_sign.style.display = 'none';
+
+                            let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                            let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                            cart_items.splice(indexOfItem, 1);
+                            sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
+                        } else {
+                            buy_amount.innerText = parseInt(buy_amount.innerText, 10) - 1;
+
+                            let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                            let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                            cart_items[indexOfItem].Times -= 1;
+                            sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
                         }
+                        cart_refresh();
+                    }
 
-                        minus_sign.onclick = () => {
-                            if (buy_amount.innerText == 1) {
-                                buy_amount.innerText = 'ADD';
-                                minus_sign.style.display = 'none';
-                                buy_amount.style.cursor = 'pointer';
-                                plus_sign.style.display = 'none';
-                            } else {
-                                buy_amount.innerText = parseInt(buy_amount.innerText, 10) - 1;
-                            }
-                        }
+                    plus_sign.onclick = () => {
+                        buy_amount.innerText = parseInt(buy_amount.innerText, 10) + 1;
+                        let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                        let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                        cart_items[indexOfItem].Times += 1;
+                        sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
+                        cart_refresh();
+                    }
 
-                        plus_sign.onclick = () => {
-                            buy_amount.innerText = parseInt(buy_amount.innerText, 10) + 1;
-                        }
+                    product_image.addEventListener("click", () => {
+                        localStorage.setItem("product-name", element.val().Name);
+                        localStorage.setItem("product-image", element.val().Image);
+                        localStorage.setItem("product-quantity", element.val().Base + 'g');
+                        localStorage.setItem("product-discount", element.val().Discount)
+                        localStorage.setItem("product-oldprice", "₹" + element.val().Price);
+                        localStorage.setItem("product-price", "₹" + (original_price - (original_price * discount)));
+                        window.location.href = "/pages/product.html"
+                    });
+                }
 
-                        product_image.addEventListener("click", () => {
-                            localStorage.setItem("product-name", element.val().Name);
-                            localStorage.setItem("product-image", element.val().Image);
-                            localStorage.setItem("product-quantity", element.val().Base + 'g');
-                            localStorage.setItem("product-discount", element.val().Discount)
-                            localStorage.setItem("product-oldprice", "₹" + element.val().Price);
-                            localStorage.setItem("product-price", "₹" + (original_price - (original_price * discount)));
-                            window.location.href = "/pages/product.html"
-                        });
+            })
+        })
 
-                    })
-                })
-        } else {
-            get(child(dataRef, "products"))
-                .then((snapshot) => {
-                    var values = [];
-                    snapshot.forEach(element => {
-                        let indi_item = document.createElement('div');
-                        let discount_text = document.createElement('span');
-                        let product_image = document.createElement('img');
-                        let product_name = document.createElement('h5');
-                        let product_base = document.createElement('p');
-                        let purchase_container = document.createElement('div');
-                        let price_container = document.createElement('div');
-                        let new_price = document.createElement('p');
-                        let old_price = document.createElement('p');
-                        let buy_container = document.createElement('div');
-                        let minus_sign = document.createElement('img');
-                        let buy_amount = document.createElement('p');
-                        let plus_sign = document.createElement('img');
+        const card_details = document.getElementById('card-details');
+        const cart_number = document.getElementById('cart-number');
 
-                        // product details has been filled
-                        indi_item.setAttribute('class', 'indi-item');
-                        discount_text.innerHTML = element.val().Discount + '% <br> OFF';
-                        discount_text.setAttribute('class', 'discount');
-                        product_image.src = JSON.parse(element.val().Image)[0];
-                        product_name.textContent = element.val().Name;
-                        product_base.textContent = element.val().Base + 'g';
-                        purchase_container.setAttribute('class', 'purchase-container');
-                        price_container.setAttribute('class', 'price-container');
-                        let original_price = element.val().Price;
-                        let discount = element.val().Discount / 100;
-                        new_price.textContent = "₹" + (original_price - (original_price * discount));
-                        old_price.textContent = "₹" + original_price;
-                        buy_container.setAttribute('class', 'buy-container');
-                        minus_sign.setAttribute('class', 'minus-sign');
-                        minus_sign.src = '/assets/images/icons/minus-sign.png';
-                        minus_sign.style.width = '15px'
-                        minus_sign.style.border = '0';
-                        buy_amount.setAttribute('class', 'buy-amount');
-                        buy_amount.innerText = 'ADD';
-                        plus_sign.setAttribute('class', 'plus-sign');
-                        plus_sign.src = '/assets/images/icons/plus.png';
-                        plus_sign.style.width = '15px'
-                        plus_sign.style.border = '0'
+        function cart_refresh() {
+            var card = document.getElementById('card');
+            let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
 
-                        if (discount == '0') {
-                            discount_text.style.display = 'none';
-                            old_price.style.display = 'none';
-                        }
+            if (cart_items.length == 0) {
+                cart_number.innerText = '0';
+                card.classList.remove('pop-in');
+                card.classList.add('pop-out');
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 300);
+            } else {
+                card.classList.remove('pop-out');
+                card.classList.add('pop-in');
+                card.style.display = 'flex';
+                let message;
+                var total = 0;
+                var quantity = 0;
+                cart_items.forEach(item => {
+                    var original_price = Math.round(item.Price * item.Base / 1000);
+                    var discount = item.Discount / 100;
+                    original_price -= original_price * discount;
+                    total += original_price * item.Times;
+                    quantity += item.Times;
+                });
+                if (quantity == 1) {
+                    message = '1 item | ₹';
+                } else {
+                    message = quantity + ' items | ₹';
+                }
+                cart_number.innerText = quantity;
+                message += total;
 
-
-                        indi_item.appendChild(discount_text);
-                        indi_item.appendChild(product_image);
-                        indi_item.appendChild(product_name);
-                        indi_item.appendChild(product_base);
-                        price_container.appendChild(new_price);
-                        price_container.appendChild(old_price);
-                        purchase_container.appendChild(price_container);
-                        buy_container.appendChild(minus_sign);
-                        buy_container.appendChild(buy_amount);
-                        buy_container.appendChild(plus_sign);
-                        purchase_container.appendChild(buy_container);
-                        indi_item.appendChild(purchase_container);
-                        if (localStorage.getItem('category') == element.val().Category) {
-                            datalist.appendChild(indi_item);
-                        }
-
-                        buy_amount.onclick = () => {
-                            if (buy_amount.innerText == 'ADD') {
-                                buy_amount.innerText = '1';
-                                minus_sign.style.display = 'block';
-                                buy_amount.style.cursor = 'auto';
-                                plus_sign.style.display = 'block';
-                            }
-                        }
-
-                        minus_sign.onclick = () => {
-                            if (buy_amount.innerText == 1) {
-                                buy_amount.innerText = 'ADD';
-                                minus_sign.style.display = 'none';
-                                buy_amount.style.cursor = 'pointer';
-                                plus_sign.style.display = 'none';
-                            } else {
-                                buy_amount.innerText = parseInt(buy_amount.innerText, 10) - 1;
-                            }
-                        }
-
-                        plus_sign.onclick = () => {
-                            buy_amount.innerText = parseInt(buy_amount.innerText, 10) + 1;
-                        }
-
-                        product_image.addEventListener("click", () => {
-                            localStorage.setItem("product-name", element.val().Name);
-                            localStorage.setItem("product-image", element.val().Image);
-                            localStorage.setItem("product-quantity", element.val().Base + 'g');
-                            localStorage.setItem("product-discount", element.val().Discount)
-                            localStorage.setItem("product-oldprice", "₹" + element.val().Price);
-                            localStorage.setItem("product-price", "₹" + (original_price - (original_price * discount)));
-                            window.location.href = "/pages/product.html"
-                        });
-
-                    })
-                })
+                card_details.innerText = message;
+                console.log(message);
+            }
         }
+
+        cart_refresh();
 
 
     </script>

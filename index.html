@@ -416,12 +416,14 @@
         }
 
         const card_details = document.getElementById('card-details');
+        const cart_number = document.getElementById('cart-number');
 
         function cart_refresh() {
             var card = document.getElementById('card');
             let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
 
             if (cart_items.length == 0) {
+                cart_number.innerText = '0';
                 card.classList.remove('pop-in');
                 card.classList.add('pop-out');
                 setTimeout(() => {
@@ -446,6 +448,7 @@
                 } else {
                     message = quantity + ' items | ₹';
                 }
+                cart_number.innerText = quantity;
                 message += total;
 
                 card_details.innerText = message;
