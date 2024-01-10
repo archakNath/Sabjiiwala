@@ -127,4 +127,8 @@
     .buy-container{
         margin-bottom: 100px;
     }
+
+    #product-description{
+        width: 100%;
+    }
 }
