@@ -40,9 +40,9 @@
     <div id="card">
         <div>
             <img src="/assets/images/icons/shopping-cart.png" alt="">
-            <p>1 item | ₹20</p>
+            <p id="card-details">1 item | ₹20</p>
         </div>
-        <div>
+        <div id="card-button">
             <p>view cart</p>
             <img src="/assets/images/icons/right-arrow.png" alt="">
         </div>
@@ -416,13 +416,35 @@
             localStorage.setItem("category", 'all');
         }
 
+        const card_details = document.getElementById('card-details');
+
         function cart_refresh() {
             var card = document.getElementById('card');
             let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+
             if (cart_items.length == 0) {
                 card.style.display = 'none';
             } else {
                 card.style.display = 'flex';
+                let message;
+                var total = 0;
+                var quantity = 0;
+                cart_items.forEach(item => {
+                    var original_price = Math.round(item.Price * item.Base / 1000);
+                    var discount = item.Discount / 100;
+                    original_price -= original_price * discount;
+                    total += original_price * item.Times;
+                    quantity += item.Times;
+                });
+                if (quantity == 1) {
+                    message = '1 item | ₹';
+                } else {
+                    message = quantity + ' items | ₹';
+                }
+                message += total;
+
+                card_details.innerText = message;
+                console.log(message);
             }
         }
 

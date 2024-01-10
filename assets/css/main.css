@@ -21,6 +21,7 @@ header {
     justify-content: center;
     align-items: center;
     gap: 60px;
+    box-shadow: 0 0 10px gray;
 }
 
 #card div {
