@@ -38,7 +38,14 @@
     </header>
 
     <div id="card">
-        <h1>this is cart</h1>
+        <div>
+            <img src="/assets/images/icons/shopping-cart.png" alt="">
+            <p>1 item | ₹20</p>
+        </div>
+        <div>
+            <p>view cart</p>
+            <img src="/assets/images/icons/right-arrow.png" alt="">
+        </div>
     </div>
 
     <section id="hero">
@@ -290,7 +297,7 @@
                 product_base.textContent = element.val().Base + 'g';
                 purchase_container.setAttribute('class', 'purchase-container');
                 price_container.setAttribute('class', 'price-container');
-                let original_price = element.val().Price;
+                let original_price = Math.round(element.val().Price * element.val().Base / 1000);
                 let discount = element.val().Discount / 100;
                 new_price.textContent = "₹" + (original_price - (original_price * discount));
                 old_price.textContent = "₹" + original_price;
@@ -309,6 +316,15 @@
                 if (discount == '0') {
                     discount_text.style.display = 'none';
                     old_price.style.display = 'none';
+                }
+
+                let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                if (indexOfItem != -1) {
+                    buy_amount.innerText = cart_items[indexOfItem].Times;
+                    minus_sign.style.display = 'block';
+                    buy_amount.style.cursor = 'auto';
+                    plus_sign.style.display = 'block';
                 }
 
 
@@ -334,7 +350,22 @@
                         buy_amount.style.cursor = 'auto';
                         plus_sign.style.display = 'block';
                     }
-                }
+
+                    let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                    var item = {
+                        Name: element.val().Name,
+                        Price: element.val().Price,
+                        Quantity: element.val().Quantity,
+                        Discount: element.val().Discount,
+                        Base: element.val().Base,
+                        Image: element.val().Image,
+                        Times: 1
+                    };
+                    cart_items.push(item);
+                    sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
+                    cart_refresh();
+                };
+
 
                 minus_sign.onclick = () => {
                     if (buy_amount.innerText == 1) {
@@ -342,13 +373,29 @@
                         minus_sign.style.display = 'none';
                         buy_amount.style.cursor = 'pointer';
                         plus_sign.style.display = 'none';
+
+                        let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                        let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                        cart_items.splice(indexOfItem, 1);
+                        sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
                     } else {
                         buy_amount.innerText = parseInt(buy_amount.innerText, 10) - 1;
+
+                        let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                        let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                        cart_items[indexOfItem].Times -= 1;
+                        sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
                     }
+                    cart_refresh();
                 }
 
                 plus_sign.onclick = () => {
                     buy_amount.innerText = parseInt(buy_amount.innerText, 10) + 1;
+                    let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+                    let indexOfItem = cart_items.findIndex(item => item.Name === element.val().Name);
+                    cart_items[indexOfItem].Times += 1;
+                    sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
+                    cart_refresh();
                 }
 
                 product_image.addEventListener("click", () => {
@@ -369,15 +416,17 @@
             localStorage.setItem("category", 'all');
         }
 
-        var card = document.getElementById('card');
-        let cart_items = JSON.parse(sessionStorage.getItem('cart_items'));
-        if (cart_items == null) {
-            card.style.display = 'none';
-            console.log('not there')
-        } else {
-            console.log('there')
-            console.log(cart_items);
+        function cart_refresh() {
+            var card = document.getElementById('card');
+            let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+            if (cart_items.length == 0) {
+                card.style.display = 'none';
+            } else {
+                card.style.display = 'flex';
+            }
         }
+
+        cart_refresh();
 
         const explore_button = document.getElementById('explore-button');
         explore_button.onclick = () => {

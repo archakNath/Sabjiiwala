@@ -12,11 +12,44 @@ header {
     z-index: 999;
     bottom: 10px;
     right: 10px;
-    background-color: white;
+    background-color: var(--dark-green);
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid green;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    font-size: 18px;
+}
+
+#card div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#card div:nth-child(2) {
     cursor: pointer;
+}
+
+#card img {
+    width: 27px;
+}
+
+#card img:nth-child(2) {
+    width: 18px;
+}
+
+@media(max-width:500px) {
+    #card {
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+        justify-content: space-between;
+    }
 }
 
 #hero {
@@ -180,7 +213,7 @@ main {
     justify-content: space-evenly;
     gap: 15px;
     flex-wrap: wrap;
-    mix-blend-mode:multiply;
+    mix-blend-mode: multiply;
 }
 
 #key-notes .content {
@@ -373,7 +406,7 @@ main {
     transition: all .2s;
 }
 
-#about .about-container:nth-child(2) button:hover{
+#about .about-container:nth-child(2) button:hover {
     background-color: var(--light-green);
     color: var(--dark-green);
 }
@@ -406,6 +439,7 @@ footer {
     background-color: transparent;
     color: white;
     margin: 0;
+    background-image: none;
 }
 
 footer a {

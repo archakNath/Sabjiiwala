@@ -11,6 +11,7 @@
     --light-green:#a4bfa7;
     --dark-green:#51604f;
     --off-white:#e9eaec;
+    --off-green:#CAD9CB;
 }
 
 body{
@@ -149,8 +150,10 @@ nav ul a:hover{
 
 footer{
     display: flex;
-    background-color: #313131;
-    color: gray;
+    background-image: url(/assets/images/footer-white.png);
+    background-size: cover;
+    background-position: top;
+    color: white;
     margin-top: 50px;
 }
 
@@ -162,7 +165,7 @@ footer{
 footer hr{
     margin: 10px;
     margin-block: 30px;
-    background-color: gray;
+    background-color: white;
 }
 
 footer h4{
@@ -183,7 +186,7 @@ footer .social img{
 footer a{
     display: block;
     text-decoration: none;
-    color: gray;
+    color: white;
 }
 
 @media(max-width:700px){
