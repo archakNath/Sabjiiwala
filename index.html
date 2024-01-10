@@ -424,7 +424,9 @@
             if (cart_items.length == 0) {
                 card.classList.remove('pop-in');
                 card.classList.add('pop-out');
-                card.style.display = 'none';
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 300);
             } else {
                 card.classList.remove('pop-out');
                 card.classList.add('pop-in');

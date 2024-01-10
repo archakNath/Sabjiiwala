@@ -28,22 +28,22 @@ header {
 @keyframes popIn {
     from {
         opacity: 0;
-        transform: scale(0.8);
+        bottom: -100px;
     }
     to {
         opacity: 1;
-        transform: scale(1);
+        bottom: 10px;
     }
 }
 
 @keyframes popOut {
     from {
         opacity: 1;
-        transform: scale(1);
+        bottom: 10px;
     }
     to {
         opacity: 0;
-        transform: scale(0.8);
+        bottom: -100px;
     }
 }
 
