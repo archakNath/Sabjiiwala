@@ -400,10 +400,10 @@
                 product_image.addEventListener("click", () => {
                     localStorage.setItem("product-name", element.val().Name);
                     localStorage.setItem("product-image", element.val().Image);
-                    localStorage.setItem("product-quantity", element.val().Base + 'g');
-                    localStorage.setItem("product-discount", element.val().Discount)
-                    localStorage.setItem("product-oldprice", "₹" + element.val().Price);
-                    localStorage.setItem("product-price", "₹" + (original_price - (original_price * discount)));
+                    localStorage.setItem("product-quantity", element.val().Base);
+                    localStorage.setItem("product-discount", element.val().Discount);
+                    localStorage.setItem("product-price",  element.val().Price);
+                    localStorage.setItem("product-description",  element.val().Description);
                     window.location.href = "/pages/product.html"
                 });
 
