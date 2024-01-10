@@ -123,4 +123,8 @@
     .display-container:nth-child(1) span{
         bottom: 30px;
     }
+
+    .buy-container{
+        margin-bottom: 100px;
+    }
 }
