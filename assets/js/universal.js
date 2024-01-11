@@ -12,16 +12,10 @@ menubtn.onclick = () => {
     if (nav_visible == "none") {
         navbar.style.display = "block";
         logo.style.display = "none";
-        if (screenWidth < 700) {
-            header.style.backgroundColor = '#a4bfa7';
-        }
         menubtn.src = "/assets/images/icons/cancel.png"
     } else {
         navbar.style.display = "none";
         logo.style.display = "block";
-        if (screenWidth < 700 && window.scrollY <= 150) {
-            header.style.backgroundColor = 'rgba(164, 191, 167, 0)';
-        }
         menubtn.src = "/assets/images/icons/menu.png"
     }
 }

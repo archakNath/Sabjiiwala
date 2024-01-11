@@ -70,6 +70,12 @@ section{
     height: fit-content;
 }
 
+@media(max-width:700px){
+    .buy-container{
+        margin-right: 0;
+    }
+}
+
 .buy-container img {
     width: 15px;
     border: 0;
