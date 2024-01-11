@@ -1,0 +1,147 @@
+#cart-link{
+    color: var(--dark-green);
+}
+
+section{
+    padding-top: 90px;
+    max-width: 700px;
+    margin-inline: auto;
+    padding-inline: 20px;
+}
+
+#item-list{
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.indi-item{
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-details>strong{
+    font-weight: 500;
+}
+
+.indi-item>div{
+    display: flex;
+    gap: 10px;
+}
+
+.indi-item img{
+    width: 100px;
+    border-radius: 10px;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.product-details>p{
+    color: gray;
+    font-size: 13px;
+}
+
+.price-container{
+    display: flex;
+    gap: 5px;
+    font-size: 15px;
+}
+
+.price-container p{
+    text-decoration: line-through;
+    color: gray;
+}
+
+.buy-container {
+    margin-block: auto;
+    margin-right: 20px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid green;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background-color: rgba(0, 128, 0, 0.197);
+    width: fit-content;
+    height: fit-content;
+}
+
+.buy-container img {
+    width: 15px;
+    border: 0;
+    cursor: pointer;
+}
+
+.buy-container p {
+    padding: 5px 12px;
+    color: green;
+}
+
+#bill{
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+
+#bill>strong{
+    margin: 10px 0 0 10px;
+}
+
+#bill div{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+#bill>div{
+    padding-inline: 10px;
+}
+
+#bill div div{
+    gap: 7px;
+}
+
+#bill>div>p:nth-child(1){
+    font-weight: 500;
+    
+}
+
+#old-price, #old-deli{
+    text-decoration: line-through;
+    color: gray;
+}
+
+#savings-container{
+    color: var(--dark-green);
+    background-image: url(/assets/images/waves.svg);
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+
+#next-button{
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid var(--dark-green);
+    background-color: var(--dark-green);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all .2s;
+}
+
+#next-button:hover{
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}

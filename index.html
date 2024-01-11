@@ -24,7 +24,7 @@
                 <a href="#"><img src="/assets/images/icons/contact-mail.png" id="contact-image" alt="">
                     <li>Contact</li>
                 </a>
-                <a href="#" id="cart-link">
+                <a href="/pages/cart.html" id="cart-link">
                     <img src="/assets/images/icons/shopping-cart.png" alt="">
                     <li>Cart</li>
                     <p id="cart-number">0</p>
@@ -477,6 +477,11 @@
             }
         }
         window.addEventListener('scroll', changeBackgroundColorOnScroll);
+
+        const card_button = document.getElementById('card-button');
+        card_button.onclick = () => {
+            window.location.href = '/pages/cart.html'
+        }
     </script>
 </body>
 
