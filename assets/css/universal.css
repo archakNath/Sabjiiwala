@@ -148,6 +148,81 @@ nav ul a:hover {
     }
 }
 
+#phone{
+    /* display: none; */
+    position: fixed;
+    padding-top: 90px;
+    background-color: white;
+    padding-inline: 20px;
+    height: 100%;
+    right: 0;
+    box-shadow: 0 0  10px gray;
+}
+
+#phone h1{
+    color: var(--dark-green);
+}
+
+#phone>div:nth-child(1){
+    display: flex;
+    gap: 20px;
+}
+
+#phone>div:nth-child(1) img{
+    width: 18px;
+    cursor: pointer;
+}
+
+#phone>div:nth-child(2){
+    display: flex;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+#phone>div:nth-child(2)>div{
+    display: flex;
+    margin-right: 10px;
+    border: 1px solid var(--light-green);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#phone>div:nth-child(2) img{
+    width: 20px;
+}
+
+#phone>div:nth-child(2)>input{
+    font-size: 20px;
+    border: 1px solid var(--light-green);
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+}
+
+#phone>button{
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    background-color: var(--light-green);
+    color: var(--dark-green);
+    border: 1px solid var(--dark-green);
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+@media(max-width:700px){
+    #phone{
+        width: 100%;
+    }
+
+    #phone div:nth-child(1){
+        justify-content: space-between;
+    }
+}
+
+
 #card {
     position: fixed;
     z-index: 999;

@@ -10,10 +10,21 @@ function listing() {
     const total_text = document.getElementById('total');
     const savings_text = document.getElementById('savings');
     const savings_container = document.getElementById('savings-container');
+    const bill = document.getElementById('bill');
+    const next_button = document.getElementById('next-button');
+    const no_item = document.querySelector('.no-item');
     let old_total = 0;
     let new_total = 0;
     let grand_total = 0;
-    list.innerHTML = '';
+    if (cart_items.length != 0) {
+        list.innerHTML = '';
+        bill.style.display = 'flex';
+        next_button.style.display = 'block';
+    } else {
+        list.innerHTML = '<div class="no-item"><img src="/assets/images/icons/cart-cross.svg" alt=""><h3>No item added to cart</h3><a href="/pages/shop.html" id="shop-button"><button>Shop</button></a></div>';
+        bill.style.display = 'none';
+        next_button.style.display = 'none';
+    }
     for (let i = 0; i < cart_items.length; i++) {
         const element = cart_items[i];
         var indi_item = document.createElement('div');
@@ -38,7 +49,7 @@ function listing() {
         new_price.textContent = "₹" + (original_price - (original_price * discount));
         old_price.textContent = "₹" + original_price;
         old_total += original_price * element.Times;
-        new_total += (original_price - (original_price * discount))*element.Times;
+        new_total += (original_price - (original_price * discount)) * element.Times;
         buy_amount.textContent = element.Times;
         indi_item.setAttribute('class', 'indi-item');
         product_details.setAttribute('class', 'product-details');
@@ -90,10 +101,10 @@ function listing() {
         cart_quantity += element.Times;
     }
     cart_number.textContent = cart_quantity;
-    old_price_text.textContent = '₹'+old_total;
-    new_price_text.textContent = '₹'+new_total;
+    old_price_text.textContent = '₹' + old_total;
+    new_price_text.textContent = '₹' + new_total;
     let deli_charge;
-    if(new_total > 300){
+    if (new_total > 300) {
         deli_charge = 0;
         old_deli_text.textContent = '₹15';
         new_deli_text.textContent = 'FREE';
@@ -106,18 +117,18 @@ function listing() {
         old_deli_text.style.display = 'none';
     }
 
-    if(old_total == new_total){
+    if (old_total == new_total) {
         old_price_text.style.display = 'none';
-    }else {
+    } else {
         old_price_text.style.display = 'block';
     }
-    if(old_total-grand_total <= 0){
+    if (old_total - grand_total <= 0) {
         savings_container.style.display = 'none';
     } else {
         savings_container.style.display = 'flex';
     }
-    total_text.textContent = '₹'+grand_total;
-    savings_text.textContent = '₹'+Math.round(old_total-grand_total);
+    total_text.textContent = '₹' + grand_total;
+    savings_text.textContent = '₹' + Math.round(old_total - grand_total);
 }
 
 listing();
@@ -140,3 +151,8 @@ listing();
                     <img class="plus-sign" src="/assets/images/icons/plus.png" style="width: 15px; border: 0px;">
                 </div>
 </div> */}
+
+// const explore_button = document.getElementById('shop-button');
+// explore_button.onclick = () => {
+//     localStorage.setItem("category", 'all');
+// }

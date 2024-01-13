@@ -37,8 +37,29 @@
         <img src="/assets/images/icons/menu.png" alt="" id="menu-button">
     </header>
 
-    <section>
-        <div id="item-list"></div>
+    <section id="phone">
+        <div>
+            <h1>Enter phone number</h1>
+            <img src="/assets/images/icons/cancel-green.svg" alt="" id="close-phone">
+        </div>
+        <div>
+            <div>
+                <img src="/assets/images/icons/india.svg" alt="">
+                <p>+91</p>
+            </div>
+            <input type="number" name="" id="" placeholder="Phone number">
+        </div>
+        <button id="phone-verify">Verify</button>
+    </section>
+
+    <main>
+        <div id="item-list">
+            <div class="no-item">
+                <img src="/assets/images/icons/cart-cross.svg" alt="">
+                <h3>No item added to cart</h3>
+                <a href="/pages/shop.html" id="shop-button"><button>Shop</button></a>
+            </div>
+        </div>
 
         <div id="bill">
             <strong>Bill details</strong>
@@ -68,7 +89,7 @@
 
         <button id="next-button">Choose address at next step</button>
 
-    </section>
+    </main>
 
     <footer>
         <div class="footer-container">
@@ -95,7 +116,7 @@
             </div>
         </div>
     </footer>
-    
+
     <script src="/assets/js/universal.js"></script>
     <script src="/assets/js/cart.js"></script>
 </body>

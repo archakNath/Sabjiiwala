@@ -21,9 +21,25 @@ menubtn.onclick = () => {
 }
 
 const login_button = document.getElementById("login-button");
+const phone_section = document.getElementById("phone");
 login_button.addEventListener("click", function () {
-    window.location.href = "/pages/login.html"
+    phone_section.style.display = 'block';
 })
+const phone_close = document.getElementById('close-phone');
+phone_close.onclick = () => {
+    phone_section.style.display = 'none';
+}
+const phone_verify_button = document.getElementById('phone-verify');
+const phone_input = document.querySelector('#phone>div:nth-child(2)>input');
+phone_input.addEventListener('input', function() {
+    if(phone_input.value.length == 10){
+        phone_verify_button.style.backgroundColor = 'var(--dark-green)';
+        phone_verify_button.style.color = 'white';
+    } else {
+        phone_verify_button.style.backgroundColor = 'var(--light-green)';
+        phone_verify_button.style.color = 'var(--dark-green)';
+    }
+});
 
 const nav_shop = document.querySelector('nav ul a:nth-child(2)');
 nav_shop.onclick = () => {

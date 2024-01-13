@@ -2,7 +2,7 @@
     color: var(--dark-green);
 }
 
-section{
+main{
     padding-top: 90px;
     max-width: 700px;
     margin-inline: auto;
@@ -16,6 +16,7 @@ section{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    font-size: 13px;
 }
 
 .indi-item{
@@ -47,7 +48,7 @@ section{
 .price-container{
     display: flex;
     gap: 5px;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .price-container p{
@@ -150,4 +151,26 @@ section{
 #next-button:hover{
     background-color: var(--light-green);
     color: var(--dark-green);
+}
+
+.no-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-block: 50px;
+}
+.no-item img{
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+.no-item button{
+    padding: 10px;
+    margin-top: 10px;
+    background-color: var(--dark-green);
+    color: white;
+    border: 1px solid var(--dark-green);
+    border-radius: 10px;
+    cursor: pointer;
 }
