@@ -22,6 +22,11 @@ body {
     color: var(--dark-green);
 }
 
+p.error-message{
+    color: red;
+    font-size: 13px;
+}
+
 header {
     z-index: 999;
     width: 100%;
@@ -49,6 +54,10 @@ header {
     justify-content: center;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 600;
 }
 
 #logo img {
@@ -149,7 +158,7 @@ nav ul a:hover {
 }
 
 #phone{
-    /* display: none; */
+    display: none;
     position: fixed;
     padding-top: 90px;
     background-color: white;
@@ -166,6 +175,8 @@ nav ul a:hover {
 #phone>div:nth-child(1){
     display: flex;
     gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 30px;
 }
 
 #phone>div:nth-child(1) img{
@@ -173,13 +184,12 @@ nav ul a:hover {
     cursor: pointer;
 }
 
-#phone>div:nth-child(2){
+#sender>div:nth-child(1){
     display: flex;
     font-size: 20px;
-    margin-top: 30px;
 }
 
-#phone>div:nth-child(2)>div{
+#sender>div:nth-child(1)>div{
     display: flex;
     margin-right: 10px;
     border: 1px solid var(--light-green);
@@ -187,11 +197,11 @@ nav ul a:hover {
     border-radius: 5px;
 }
 
-#phone>div:nth-child(2) img{
+#sender>div:nth-child(1) img{
     width: 20px;
 }
 
-#phone>div:nth-child(2)>input{
+#sender>div:nth-child(1)>input, #verify>input{
     font-size: 20px;
     border: 1px solid var(--light-green);
     border-radius: 5px;
@@ -199,26 +209,32 @@ nav ul a:hover {
     width: 100%;
 }
 
-#phone>button{
+#sender>button, #otp-verify{
     margin-top: 10px;
     padding: 10px;
     width: 100%;
-    background-color: var(--light-green);
-    color: var(--dark-green);
+    background-color: var(--dark-green);
+    color: var(--off-white);
     border: 1px solid var(--dark-green);
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
+    margin-bottom: 5px;
+}
+
+#recaptcha-container{
+    margin-top: 10px;
+    width: 100%;
+}
+
+#verify{
+    display: none;
 }
 
 
 @media(max-width:700px){
     #phone{
         width: 100%;
-    }
-
-    #phone div:nth-child(1){
-        justify-content: space-between;
     }
 }
 

@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <h2 id="logo"><img src="/assets/images/logo.png" alt="">Sabjiiwala</h2>
+        <a href="/index.html" id="logo"><img src="/assets/images/logo.png" alt="">Sabjiiwala</a>
         <nav>
             <ul id="nav-list">
                 <a href="/pages/search.html"><img src="/assets/images/icons/search.png" id="search-image" alt="">
@@ -21,7 +21,8 @@
                 <a href="/pages/shop.html"><img src="/assets/images/icons/shop.png" alt="">
                     <li>Shop</li>
                 </a>
-                <a href="#"><img src="/assets/images/icons/contact-mail.png" id="contact-image" alt="">
+                <a href="/pages/contact.html"><img src="/assets/images/icons/contact-mail.png" id="contact-image"
+                        alt="">
                     <li>Contact</li>
                 </a>
                 <a href="/pages/cart.html" id="cart-link">
@@ -46,6 +47,30 @@
             <img src="/assets/images/icons/shopping-cart.png" alt="">
         </div>
     </div>
+
+    <section id="phone">
+        <div>
+            <h1>Phone Verification</h1>
+            <img src="/assets/images/icons/cancel-green.svg" alt="" id="close-phone">
+        </div>
+        <div id="sender">
+            <div>
+                <div>
+                    <img src="/assets/images/icons/india.svg" alt="">
+                    <p>+91</p>
+                </div>
+                <input type="number" name="" id="phone-number" placeholder="Phone number">
+            </div>
+            <div id="recaptcha-container"></div>
+            <p class="error-message"></p>
+            <button id="phone-verify">Send</button>
+        </div>
+        <div id="verify">
+            <input type="number" name="" id="verificationcode" placeholder="Enter OTP">
+            <p class="error-message"></p>
+            <button id="otp-verify">Verify</button>
+        </div>
+    </section>
 
     <section id="hero">
         <div id="carousel">
@@ -144,6 +169,8 @@
     </div>
 
 
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
     <script src="/assets/js/universal.js"></script>
     <script src="/assets/js/main.js"></script>
 
@@ -481,6 +508,53 @@
         const card_button = document.getElementById('card-button');
         card_button.onclick = () => {
             window.location.href = '/pages/cart.html'
+        }
+
+        firebase.initializeApp(firebaseConfig);
+        // render recaptcha verifier
+        render();
+        function render() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            recaptchaVerifier.render();
+        }
+        // function for send OTP
+        function phoneAuth() {
+            var number = document.getElementById('phone-number').value;
+            firebase.auth().signInWithPhoneNumber('+91' + number, window.recaptchaVerifier).then(function (confirmationResult) {
+                window.confirmationResult = confirmationResult;
+                coderesult = confirmationResult;
+                console.log('OTP Sent');
+                const send_section = document.getElementById('sender');
+                const otp_section = document.getElementById('verify');
+                send_section.style.display = 'none';
+                otp_section.style.display = 'block';
+            }).catch(function (error) {
+                // error in sending OTP
+                const error_message_text = document.querySelector('#sender .error-message');
+                error_message_text.textContent = error;
+            });
+        }
+        // function for OTP verify
+        function codeverify() {
+            var code = document.getElementById('verificationcode').value;
+            coderesult.confirm(code).then(function () {
+                var number = document.getElementById('phone-number').value;
+                localStorage.setItem('username', number);
+                alert('phone verified');
+                location.reload();
+            }).catch(function () {
+                const error_message_text = document.querySelector('#verify .error-message');
+                error_message_text.textContent = 'Wrong OTP';
+            })
+        }
+
+        const otp_verify_button = document.getElementById('otp-verify');
+        phone_verify_button.onclick = () => {
+            phoneAuth();
+        }
+
+        otp_verify_button.onclick = () => {
+            codeverify();
         }
     </script>
 </body>

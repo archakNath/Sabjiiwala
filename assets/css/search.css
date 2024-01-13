@@ -1,5 +1,5 @@
 nav ul a:nth-child(1){
-    color: green;
+    color: var(--dark-green);
 }
 
 main{

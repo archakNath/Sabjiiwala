@@ -78,6 +78,10 @@ header {
     }
 }
 
+#phone{
+    z-index: 10000;
+}
+
 
 main {
     margin-top: 30px;

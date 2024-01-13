@@ -152,7 +152,12 @@ listing();
                 </div>
 </div> */}
 
-// const explore_button = document.getElementById('shop-button');
-// explore_button.onclick = () => {
-//     localStorage.setItem("category", 'all');
-// }
+const next_button = document.getElementById('next-button');
+const phones_section = document.getElementById('phone');
+next_button.onclick = () => {
+    const username = localStorage.getItem('username');
+    if(username != null){
+    } else {
+        phones_section.style.display = 'block';
+    }
+}

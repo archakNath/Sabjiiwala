@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <h2 id="logo"><img src="/assets/images/logo.png" alt="">Sabjiiwala</h2>
+        <a href="/index.html" id="logo"><img src="/assets/images/logo.png" alt="">Sabjiiwala</a>
         <nav>
             <ul id="nav-list">
                 <a href="/pages/search.html"><img src="/assets/images/icons/search.png" id="search-image" alt="">
@@ -21,10 +21,11 @@
                 <a href="/pages/shop.html"><img src="/assets/images/icons/shop.png" alt="">
                     <li>Shop</li>
                 </a>
-                <a href="#"><img src="/assets/images/icons/contact-mail.png" id="contact-image" alt="">
+                <a href="/pages/contact.html"><img src="/assets/images/icons/contact-mail.png" id="contact-image"
+                        alt="">
                     <li>Contact</li>
                 </a>
-                <a href="#" id="cart-link">
+                <a href="/pages/cart.html" id="cart-link">
                     <img src="/assets/images/icons/shopping-cart.png" alt="">
                     <li>Cart</li>
                     <p id="cart-number">0</p>
@@ -36,6 +37,40 @@
         </nav>
         <img src="/assets/images/icons/menu.png" alt="" id="menu-button">
     </header>
+
+    <div id="card">
+        <div>
+            <p id="card-details">1 item | ₹20</p>
+        </div>
+        <div id="card-button">
+            <p>view cart</p>
+            <img src="/assets/images/icons/shopping-cart.png" alt="">
+        </div>
+    </div>
+
+    <section id="phone">
+        <div>
+            <h1>Phone Verification</h1>
+            <img src="/assets/images/icons/cancel-green.svg" alt="" id="close-phone">
+        </div>
+        <div id="sender">
+            <div>
+                <div>
+                    <img src="/assets/images/icons/india.svg" alt="">
+                    <p>+91</p>
+                </div>
+                <input type="number" name="" id="phone-number" placeholder="Phone number">
+            </div>
+            <div id="recaptcha-container"></div>
+            <p class="error-message"></p>
+            <button id="phone-verify">Send</button>
+        </div>
+        <div id="verify">
+            <input type="number" name="" id="verificationcode" placeholder="Enter OTP">
+            <p class="error-message"></p>
+            <button id="otp-verify">Verify</button>
+        </div>
+    </section>
 
     <main>
         <div id="search-pane">
@@ -81,7 +116,7 @@
         const list = document.getElementById('product-list');
         var searchInput = document.querySelector('#search-pane input');
         searchInput.addEventListener('input', function () {
-            if(searchInput.value == ''){
+            if (searchInput.value == '') {
                 list.style.display = 'none';
             } else {
                 list.style.display = 'block';
@@ -112,17 +147,111 @@
                         list_item.addEventListener("click", () => {
                             localStorage.setItem("product-name", element.val().Name);
                             localStorage.setItem("product-image", element.val().Image);
-                            localStorage.setItem("product-quantity", element.val().Base + 'g');
+                            localStorage.setItem("product-quantity", element.val().Base);
                             localStorage.setItem("product-discount", element.val().Discount);
-                            localStorage.setItem("product-oldprice", "₹" + element.val().Price);
-                            localStorage.setItem("product-price", "₹" + (element.val().Price - (element.val().Price * element.val().Discount / 100)));
-                            window.location.href = '/pages/product.html';
+                            localStorage.setItem("product-price", element.val().Price);
+                            localStorage.setItem("product-description", element.val().Description);
+                            window.location.href = "/pages/product.html"
                         });
                     }
                 });
             });
         });
 
+        const card_details = document.getElementById('card-details');
+        const cart_number = document.getElementById('cart-number');
+
+        function cart_refresh() {
+            var card = document.getElementById('card');
+            let cart_items = JSON.parse(sessionStorage.getItem('cart_items')) || [];
+
+            if (cart_items.length == 0) {
+                cart_number.innerText = '0';
+                card.classList.remove('pop-in');
+                card.classList.add('pop-out');
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 300);
+            } else {
+                card.classList.remove('pop-out');
+                card.classList.add('pop-in');
+                card.style.display = 'flex';
+                let message;
+                var total = 0;
+                var quantity = 0;
+                cart_items.forEach(item => {
+                    var original_price = Math.round(item.Price * item.Base / 1000);
+                    var discount = item.Discount / 100;
+                    original_price -= original_price * discount;
+                    total += original_price * item.Times;
+                    quantity += item.Times;
+                });
+                if (quantity == 1) {
+                    message = '1 item | ₹';
+                } else {
+                    message = quantity + ' items | ₹';
+                }
+                cart_number.innerText = quantity;
+                message += total;
+
+                card_details.innerText = message;
+                console.log(message);
+            }
+        }
+
+        cart_refresh();
+
+        const card_button = document.getElementById('card-button');
+        card_button.onclick = () => {
+            window.location.href = '/pages/cart.html'
+        }
+
+        firebase.initializeApp(firebaseConfig);
+        // render recaptcha verifier
+        render();
+        function render() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            recaptchaVerifier.render();
+        }
+        // function for send OTP
+        function phoneAuth() {
+            var number = document.getElementById('phone-number').value;
+            firebase.auth().signInWithPhoneNumber('+91' + number, window.recaptchaVerifier).then(function (confirmationResult) {
+                window.confirmationResult = confirmationResult;
+                coderesult = confirmationResult;
+                console.log('OTP Sent');
+                const send_section = document.getElementById('sender');
+                const otp_section = document.getElementById('verify');
+                send_section.style.display = 'none';
+                otp_section.style.display = 'block';
+            }).catch(function (error) {
+                // error in sending OTP
+                const error_message_text = document.querySelector('#sender .error-message');
+                error_message_text.textContent = error;
+            });
+        }
+        // function for OTP verify
+        function codeverify() {
+            var code = document.getElementById('verificationcode').value;
+            coderesult.confirm(code).then(function () {
+                var number = document.getElementById('phone-number').value;
+                localStorage.setItem('username', number);
+                alert('phone verified');
+                location.reload();
+            }).catch(function () {
+                const error_message_text = document.querySelector('#verify .error-message');
+                error_message_text.textContent = 'Wrong OTP';
+            })
+        }
+
+        const otp_verify_button = document.getElementById('otp-verify');
+        phone_verify_button.onclick = () => {
+            phoneAuth();
+        }
+
+        otp_verify_button.onclick = () => {
+            codeverify();
+        }
 
 
     </script>

@@ -1,5 +1,16 @@
 nav ul a:nth-child(2){
-    color: green;
+    color: var(--dark-green);
+}
+
+#phone{
+    z-index: 1;
+    width: 400px;
+}
+
+@media(max-width:700px){
+    #phone{
+        width: 100%;
+    }
 }
 
 section{
