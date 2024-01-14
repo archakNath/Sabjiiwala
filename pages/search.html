@@ -218,7 +218,7 @@
             var number = document.getElementById('phone-number').value;
             firebase.auth().signInWithPhoneNumber('+91' + number, window.recaptchaVerifier).then(function (confirmationResult) {
                 window.confirmationResult = confirmationResult;
-                coderesult = confirmationResult;
+                window.coderesult = confirmationResult;
                 console.log('OTP Sent');
                 const send_section = document.getElementById('sender');
                 const otp_section = document.getElementById('verify');

@@ -21,7 +21,8 @@
                 <a href="/pages/shop.html"><img src="/assets/images/icons/shop.png" alt="">
                     <li>Shop</li>
                 </a>
-                <a href="/pages/contact.html"><img src="/assets/images/icons/contact-mail.png" id="contact-image" alt="">
+                <a href="/pages/contact.html"><img src="/assets/images/icons/contact-mail.png" id="contact-image"
+                        alt="">
                     <li>Contact</li>
                 </a>
                 <a href="/pages/cart.html" id="cart-link">
@@ -59,6 +60,26 @@
             <p class="error-message"></p>
             <button id="otp-verify">Verify</button>
         </div>
+    </section>
+
+    <section id="address">
+        <div>
+            <h1>Address</h1>
+            <img src="/assets/images/icons/cancel-green.svg" alt="">
+        </div>
+        <P>FULL NAME</P>
+        <input type="text" id="address-name">
+        <p>PIN CODE</p>
+        <input type="number" id="address-pincode">
+        <p>ADDRESS LINE 1</p>
+        <input type="text" id="address-line1">
+        <p>ADDRESS LINE 2</p>
+        <input type="text" id="address-line2" placeholder="optional">
+        <p>CITY</p>
+        <input type="text" id="address-city">
+        <p>STATE</p>
+        <input type="text" id="address-state">
+        <button id="place-order">Place order</button>
     </section>
 
     <main>
@@ -130,7 +151,13 @@
     <script src="/assets/js/cart.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
-    <script>
+    <script type="module">
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js";
+        import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-storage.js";
+        import { getDatabase, ref, set, child, get, update, remove } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
             apiKey: "AIzaSyDBz9wEi7QGFMIHIurcHoR6A-V9siWMUng",
@@ -142,6 +169,9 @@
             appId: "1:133860441354:web:f29e8953a336bb5d8f4ef3",
             measurementId: "G-DGXTDJWKM1"
         };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
 
         firebase.initializeApp(firebaseConfig);
         // render recaptcha verifier
@@ -188,6 +218,36 @@
 
         otp_verify_button.onclick = () => {
             codeverify();
+        }
+
+        var realdb = getDatabase();
+        const place_order_btn = document.getElementById('place-order');
+        place_order_btn.onclick = () => {
+            var add_name = document.getElementById('address-name').value;
+            var add_pincode = document.getElementById('address-pincode').value;
+            var add_line1 = document.getElementById('address-line1').value;
+            var add_line2 = document.getElementById('address-line2').value;
+            var add_city = document.getElementById('address-city').value;
+            var add_state = document.getElementById('address-state').value;
+            if (add_name.length == 0 || add_pincode.length == 0 || add_line1.length == 0 || add_city.length == 0 || add_state.length == 0) {
+                alert('fill all the required fields');
+            } else {
+                var full_address = add_line1 + ', ' + add_line2 + ', ' + add_city + ', ' + add_state + ', ' + add_pincode;
+                if (window.confirm("Are you sure '" + full_address + "' is your address?")) {
+                    set(ref(realdb, 'orders/' + new Date().toISOString().slice(0, 19)), {
+                        Name: add_name,
+                        List: sessionStorage.getItem('cart_items'),
+                        Address: full_address,
+                        Date: new Date().toISOString().slice(0, 19)
+                    }).then(() => {
+                        sessionStorage.removeItem('cart_items');
+                        alert('Order placed successfully');
+                        location.reload();
+                    }).catch((error) => {
+                        alert('Error adding data to the database:', error.message);
+                    });
+                }
+            }
         }
     </script>
 </body>

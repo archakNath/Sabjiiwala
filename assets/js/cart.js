@@ -156,8 +156,16 @@ const next_button = document.getElementById('next-button');
 const phones_section = document.getElementById('phone');
 next_button.onclick = () => {
     const username = localStorage.getItem('username');
-    if(username != null){
+    if (username != null) {
+        address_section.style.display = 'block';
     } else {
         phones_section.style.display = 'block';
     }
 }
+
+const address_cancel_btn = document.querySelector('#address>div:nth-child(1)>img');
+const address_section = document.getElementById('address');
+address_cancel_btn.onclick = () => {
+    address_section.style.display = 'none';
+}
+
