@@ -257,6 +257,10 @@ nav ul a:hover {
     animation-duration: 0.3s;
 }
 
+#card p{
+    user-select: none;
+}
+
 @keyframes popIn {
     from {
         opacity: 0;
