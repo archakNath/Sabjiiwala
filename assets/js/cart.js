@@ -44,10 +44,10 @@ function listing() {
         product_name.textContent = element.Name;
         product_image.src = JSON.parse(element.Image)[0];
         let original_price;
-        if(element.Type == "gram"){
+        if (element.Type == "gram") {
             original_price = Math.round(element.Price * element.Base / 1000);
             product_quantity.textContent = element.Base + 'g';
-        } else if(element.Type == "piece"){
+        } else if (element.Type == "piece") {
             original_price = Math.round(element.Price * element.Base);
             product_quantity.textContent = element.Base + ' piece';
         } else {
@@ -137,6 +137,7 @@ function listing() {
         savings_container.style.display = 'flex';
     }
     total_text.textContent = '₹' + grand_total;
+    sessionStorage.setItem("grand-total", grand_total);
     savings_text.textContent = '₹' + Math.round(old_total - grand_total);
 }
 
@@ -163,18 +164,15 @@ listing();
 
 const next_button = document.getElementById('next-button');
 const phones_section = document.getElementById('phone');
-next_button.onclick = () => {
-    const username = localStorage.getItem('username');
-    if (username != null) {
-        address_section.style.display = 'block';
-    } else {
-        phones_section.style.display = 'block';
-    }
-}
-
 const address_cancel_btn = document.querySelector('#address>div:nth-child(1)>img');
 const address_section = document.getElementById('address');
+const address_list = document.getElementById('address-list');
+const new_address_button = document.getElementById('new-address');
 address_cancel_btn.onclick = () => {
     address_section.style.display = 'none';
 }
 
+new_address_button.onclick = () => {
+    address_section.style.display = 'block';
+    address_list.style.display = 'none';
+}

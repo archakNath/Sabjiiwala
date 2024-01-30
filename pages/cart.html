@@ -82,7 +82,13 @@
         <button id="place-order">Place order</button>
     </section>
 
-    section#
+    <section id="address-list">
+        <h2>Select Address</h2>
+        <div id="new-address">
+            <img src="/assets/images/icons/location.svg" alt="">
+            <h3>Add Address</h3>
+        </div>
+    </section>
 
     <main>
         <div id="item-list">
@@ -116,6 +122,20 @@
             <div id="savings-container">
                 <p style="font-weight: 600;">Your total savings</p>
                 <p id="savings">₹55</p>
+            </div>
+        </div>
+
+        <div class="address-content">
+            <h4>Archak Nath</h4>
+            <p>436/1/13, Flat-B, 3rd Floor, Aparupa Apartment, Garulia Main Road, Garulia, Kolkata, WEST BENGAL, 743133,
+                Phone: 9330397140</p>
+        </div>
+
+        <div class="payment-method">
+            <h3>Payment Method</h3>
+            <div>
+                <button id="online" class="active">Online Payment</button>
+                <button id="cod">Cash on Delivery</button>
             </div>
         </div>
 
@@ -222,6 +242,10 @@
             codeverify();
         }
 
+        const address_content = document.querySelector(".address-content");
+        const address_content_name = document.querySelector(".address-content h4");
+        const address_content_address = document.querySelector(".address-content p");
+        const payment_method = document.querySelector(".payment-method");
         var realdb = getDatabase();
         const place_order_btn = document.getElementById('place-order');
         place_order_btn.onclick = () => {
@@ -236,18 +260,117 @@
             } else {
                 var full_address = add_line1 + ', ' + add_line2 + ', ' + add_city + ', ' + add_state + ', ' + add_pincode;
                 if (window.confirm("Are you sure '" + full_address + "' is your address?")) {
-                    set(ref(realdb, 'orders/' + new Date().toISOString().slice(0, 19)), {
-                        Name: add_name,
-                        List: sessionStorage.getItem('cart_items'),
+                    set(ref(realdb, 'address/' + new Date().toISOString().slice(0, 19)), {
+                        Phone: localStorage.getItem("username"),
                         Address: full_address,
-                        Date: new Date().toISOString().slice(0, 19)
+                        Name: add_name
+                    }).then(() => {
+                        localStorage.setItem('address', full_address + " Phone: " + localStorage.getItem("username"));
+                        localStorage.setItem('customer-name', add_name);
+                        address_content.style.display = 'block';
+                        payment_method.style.display = 'block';
+                        next_button.textContent = 'Continue Purchase';
+                        address_content_name.textContent = add_name;
+                        address_content_address.textContent = full_address + " Phone: " + localStorage.getItem("username");
+                        address_section.style.display = "none";
+                    }).catch((error) => {
+                        alert('Error adding data to the database:', error.message);
+                    });
+                }
+                // var full_address = add_line1 + ', ' + add_line2 + ', ' + add_city + ', ' + add_state + ', ' + add_pincode;
+                // if (window.confirm("Are you sure '" + full_address + "' is your address?")) {
+                //     set(ref(realdb, 'orders/' + new Date().toISOString().slice(0, 19)), {
+                //         Name: add_name,
+                //         List: sessionStorage.getItem('cart_items'),
+                //         Address: full_address,
+                //         Date: new Date().toISOString().slice(0, 19)
+                //     }).then(() => {
+                //         sessionStorage.removeItem('cart_items');
+                //         alert('Order placed successfully');
+                //         location.reload();
+                //     }).catch((error) => {
+                //         alert('Error adding data to the database:', error.message);
+                //     });
+                // }
+            }
+        }
+
+        var database = getDatabase();
+        var dataRef = ref(database);
+
+        const address_list = document.querySelector("#address-list");
+        get(child(dataRef, "address")).then((snapshot) => {
+            var values = [];
+            snapshot.forEach((element) => {
+                // <div class="indi-item">
+                //     <h4>Archak Nath</h4>
+                //     <p>436/1/13, Flat-B, 3rd Floor, Aparupa Apartment, Garulia Main Road, Garulia, Kolkata, WEST BENGAL, 743133</p>
+                // </div>
+
+                if (element.val().Phone == localStorage.getItem("username")) {
+                    const indi_item = document.createElement("div");
+                    const customer_name = document.createElement("h4");
+                    const address = document.createElement("p");
+                    indi_item.setAttribute("class", "indi-item");
+                    customer_name.textContent = element.val().Name;
+                    address.textContent = element.val().Address + ', Phone: ' + element.val().Phone;
+                    indi_item.appendChild(customer_name);
+                    indi_item.appendChild(address);
+                    address_list.appendChild(indi_item);
+
+                    indi_item.onclick = () => {
+                        localStorage.setItem('address', element.val().Address + ', Phone: ' + element.val().Phone);
+                        localStorage.setItem('customer-name', element.val().Name);
+                        address_content.style.display = 'block';
+                        payment_method.style.display = 'block';
+                        next_button.textContent = "Continue Purchase";
+                        address_content_name.textContent = element.val().Name;
+                        address_content_address.textContent = element.val().Address + ', Phone: ' + element.val().Phone;
+                        address_list.style.display = "none";
+                    }
+                }
+            });
+        });
+
+        var payment_option = 'online';
+        var payment_buttons = document.querySelectorAll(".payment-method button");
+        payment_buttons.forEach(button => {
+            button.onclick = () => {
+                for (let i = 0; i < payment_buttons.length; i++) {
+                    const element = payment_buttons[i];
+                    element.removeAttribute("class");
+                }
+                button.setAttribute("class", "active");
+                payment_option = button.id;
+            }
+        });
+
+        const next_button = document.getElementById("next-button");
+        const phones_section = document.getElementById('phone');
+        next_button.onclick = () => {
+            if (next_button.textContent == 'Continue Purchase') {
+                if (payment_option == 'cod') {
+                    set(ref(realdb, 'orders/' + new Date().toISOString().slice(0, 19)), {
+                        Name: localStorage.getItem('customer-name'),
+                        List: sessionStorage.getItem('cart_items'),
+                        Address: localStorage.getItem('address'),
+                        Date: new Date().toISOString().slice(0, 19),
+                        Total: sessionStorage.getItem('grand-total'),
+                        Type: payment_option
                     }).then(() => {
                         sessionStorage.removeItem('cart_items');
-                        alert('Order placed successfully');
+                        alert("order placed.")
                         location.reload();
                     }).catch((error) => {
                         alert('Error adding data to the database:', error.message);
                     });
+                }
+            } else {
+                const username = localStorage.getItem('username');
+                if (username != null) {
+                    address_list.style.display = 'block';
+                } else {
+                    phones_section.style.display = 'block';
                 }
             }
         }
