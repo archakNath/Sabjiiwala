@@ -350,11 +350,12 @@
         next_button.onclick = () => {
             if (next_button.textContent == 'Continue Purchase') {
                 if (payment_option == 'cod') {
+                    const date = new Date();
                     set(ref(realdb, 'orders/' + new Date().toISOString().slice(0, 19)), {
                         Name: localStorage.getItem('customer-name'),
                         List: sessionStorage.getItem('cart_items'),
                         Address: localStorage.getItem('address'),
-                        Date: new Date().toISOString().slice(0, 19),
+                        Date: new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata' }).format(date),
                         Total: sessionStorage.getItem('grand-total'),
                         Type: payment_option
                     }).then(() => {
