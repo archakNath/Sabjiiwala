@@ -38,14 +38,25 @@ previous_button.onclick = () => {
 }
 product_title.innerHTML = localStorage.getItem("product-name");
 product_description.innerText = localStorage.getItem('product-description');
-let original_price = Math.round(parseInt(localStorage.getItem("product-price")) * parseInt(localStorage.getItem("product-quantity")) / 1000);
-let discount = parseInt(localStorage.getItem('product-discount')) / 100;
+let original_price, discount;
+if(localStorage.getItem("product-type") == "gram"){
+    original_price = Math.round(parseInt(localStorage.getItem("product-price")) * parseInt(localStorage.getItem("product-quantity")) / 1000);
+    product_quantity.innerHTML = localStorage.getItem("product-quantity"+'g');
+    discount = parseInt(localStorage.getItem('product-discount')) / 100;
+} else if(localStorage.getItem("product-type") == "piece"){
+    original_price = Math.round(parseInt(localStorage.getItem("product-price")) * parseInt(localStorage.getItem("product-quantity")));
+    product_quantity.innerHTML = localStorage.getItem("product-quantity"+' piece');
+    discount = parseInt(localStorage.getItem('product-discount')) / 100;
+} else {
+    original_price = Math.round(parseInt(localStorage.getItem("product-price")) * parseInt(localStorage.getItem("product-quantity")));
+    product_quantity.innerHTML = localStorage.getItem("product-quantity"+'kg');
+    discount = parseInt(localStorage.getItem('product-discount')) / 100;
+}
 product_price.innerHTML = "₹" + (original_price - (original_price * discount));
 if (localStorage.getItem("product-discount") != '0') {
     product_oldprice.innerHTML = 'MRP ' + "₹" + original_price;
     product_discount.innerHTML = localStorage.getItem("product-discount") + "% OFF";
 }
-product_quantity.innerHTML = localStorage.getItem("product-quantity") + 'g';
 
 const buy_amount = document.querySelector('.buy-amount');
 const minus_sign = document.querySelector('.minus-sign');
@@ -147,7 +158,12 @@ function cart_refresh() {
         var total = 0;
         var quantity = 0;
         cart_items.forEach(item => {
-            var original_price = Math.round(item.Price * item.Base / 1000);
+            var original_price;
+            if(item.Type == 'gram'){
+                original_price = Math.round(item.Price * item.Base / 1000);
+            } else {
+                original_price = Math.round(item.Price * item.Base);
+            }
             var discount = item.Discount / 100;
             original_price -= original_price * discount;
             total += original_price * item.Times;

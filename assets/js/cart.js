@@ -43,11 +43,20 @@ function listing() {
 
         product_name.textContent = element.Name;
         product_image.src = JSON.parse(element.Image)[0];
-        product_quantity.textContent = element.Base + 'g';
-        let original_price = Math.round(element.Price * element.Base / 1000);
+        let original_price;
+        if(element.Type == "gram"){
+            original_price = Math.round(element.Price * element.Base / 1000);
+            product_quantity.textContent = element.Base + 'g';
+        } else if(element.Type == "piece"){
+            original_price = Math.round(element.Price * element.Base);
+            product_quantity.textContent = element.Base + ' piece';
+        } else {
+            original_price = Math.round(element.Price * element.Base);
+            product_quantity.textContent = element.Base + 'kg';
+        }
         let discount = element.Discount / 100;
-        new_price.textContent = "₹" + (original_price - (original_price * discount));
-        old_price.textContent = "₹" + original_price;
+        new_price.textContent = "₹" + Math.round(original_price - (original_price * discount));
+        old_price.textContent = "₹" + Math.round(original_price);
         old_total += original_price * element.Times;
         new_total += (original_price - (original_price * discount)) * element.Times;
         buy_amount.textContent = element.Times;

@@ -211,7 +211,7 @@ main {
     /* overflow-x: auto; */
     flex-wrap: wrap;
     gap: 15px;
-    justify-content: space-around;
+    /* justify-content: space-around; */
 }
 
 /* .item-list::-webkit-scrollbar {

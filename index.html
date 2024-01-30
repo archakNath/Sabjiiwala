@@ -320,12 +320,27 @@
                 discount_text.setAttribute('class', 'discount');
                 product_image.src = JSON.parse(element.val().Image)[0];
                 product_name.textContent = element.val().Name;
-                product_base.textContent = element.val().Base + 'g';
                 purchase_container.setAttribute('class', 'purchase-container');
                 price_container.setAttribute('class', 'price-container');
-                let original_price = Math.round(element.val().Price * element.val().Base / 1000);
-                let discount = element.val().Discount / 100;
-                new_price.textContent = "₹" + (original_price - (original_price * discount));
+                var item_type = element.val().Type;
+                let original_price, discount, new_original_price;
+                if(item_type == "gram"){
+                    original_price = Math.round(element.val().Price * element.val().Base / 1000);
+                    discount = element.val().Discount / 100;
+                    new_original_price = Math.round(original_price - (original_price * discount));
+                    product_base.textContent = element.val().Base + 'g';
+                } else if(item_type == "piece"){
+                    original_price = element.val().Price * element.val().Base;
+                    discount = element.val().Discount / 100;
+                    new_original_price = Math.round(original_price - (original_price * discount));
+                    product_base.textContent = element.val().Base + ' piece';
+                } else if(item_type == "kg"){
+                    original_price = element.val().Price * element.val().Base;
+                    discount = element.val().Discount / 100;
+                    new_original_price = Math.round(original_price - (original_price * discount));
+                    product_base.textContent = element.val().Base + 'kg';
+                }
+                new_price.textContent = "₹" + new_original_price;
                 old_price.textContent = "₹" + original_price;
                 buy_container.setAttribute('class', 'buy-container');
                 minus_sign.setAttribute('class', 'minus-sign');
@@ -385,7 +400,8 @@
                         Discount: element.val().Discount,
                         Base: element.val().Base,
                         Image: element.val().Image,
-                        Times: 1
+                        Times: 1,
+                        Type: element.val().Type
                     };
                     cart_items.push(item);
                     sessionStorage.setItem('cart_items', JSON.stringify(cart_items));
@@ -464,10 +480,15 @@
                 var total = 0;
                 var quantity = 0;
                 cart_items.forEach(item => {
-                    var original_price = Math.round(item.Price * item.Base / 1000);
+                    var original_price;
+                    if(item.Type == "gram"){
+                        original_price = Math.round(item.Price * item.Base / 1000);
+                    } else {
+                        original_price = Math.round(item.Price * item.Base);
+                    }
                     var discount = item.Discount / 100;
                     original_price -= original_price * discount;
-                    total += original_price * item.Times;
+                    total += Math.round(original_price) * item.Times;
                     quantity += item.Times;
                 });
                 if (quantity == 1) {

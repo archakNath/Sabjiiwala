@@ -122,7 +122,7 @@
                     var original_price = Math.round(item.Price * item.Base / 1000);
                     var discount = item.Discount / 100;
                     original_price -= original_price * discount;
-                    total += original_price * item.Times;
+                    total += Math.round(original_price) * item.Times;
                     quantity += item.Times;
                 });
                 if (quantity == 1) {
