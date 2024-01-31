@@ -351,6 +351,13 @@
             if (next_button.textContent == 'Continue Purchase') {
                 if (payment_option == 'cod') {
                     const date = new Date();
+
+                    // Calculate the date 7 days later
+                    const sevenDaysLater = new Date(date);
+                    sevenDaysLater.setDate(date.getDate() + 7);
+
+                    const options = { day: 'numeric', month: 'long'};
+                    const formattedDate = sevenDaysLater.toLocaleDateString('en-US', options);
                     set(ref(realdb, 'orders/' + new Date().toISOString().slice(0, 19)), {
                         Name: localStorage.getItem('customer-name'),
                         List: sessionStorage.getItem('cart_items'),
@@ -358,11 +365,12 @@
                         Date: new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata' }).format(date),
                         Total: sessionStorage.getItem('grand-total'),
                         Type: payment_option,
-                        Phone: localStorage.getItem("username")
+                        Phone: localStorage.getItem("username"),
+                        ExpectedDate: formattedDate
                     }).then(() => {
                         sessionStorage.removeItem('cart_items');
-                        alert("order placed.")
-                        location.reload();
+                        sessionStorage.setItem("placed", 'true');
+                        window.location.href = "/pages/dashboard.html";
                     }).catch((error) => {
                         alert('Error adding data to the database:', error.message);
                     });
