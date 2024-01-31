@@ -357,7 +357,8 @@
                         Address: localStorage.getItem('address'),
                         Date: new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata' }).format(date),
                         Total: sessionStorage.getItem('grand-total'),
-                        Type: payment_option
+                        Type: payment_option,
+                        Phone: localStorage.getItem("username")
                     }).then(() => {
                         sessionStorage.removeItem('cart_items');
                         alert("order placed.")

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabjiiwala | User</title>
+    <link rel="stylesheet" href="/assets/css/universal.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+
+<body>
+
+    <main>
+        <div id="cards">
+            <h1>Hello👋</h1>
+            <h3>9330397140</h3>
+        </div>
+
+        <!-- <div id="no-order">
+            <img src="/assets/images/icons/online_grocery.svg" alt="">
+            <h2>No Orders Placed</h2>
+        </div> -->
+
+        <div id="order-list">
+            <div class="indi-item">
+                <div class="image-preview">
+                    <img src="https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dmVnZXRhYmxlfGVufDB8fDB8fHww"
+                        alt="">
+                    <img src="https://images.unsplash.com/photo-1566842600175-97dca489844f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dmVnZXRhYmxlfGVufDB8fDB8fHww"
+                        alt="">
+                    <img src="https://images.unsplash.com/photo-1445282768818-728615cc910a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHZlZ2V0YWJsZXxlbnwwfHwwfHx8MA%3D%3D"
+                        alt="">
+                </div>
+                <div class="product-details">
+                    <p>436/1/13, Flat-B, 3rd Floor, Aparupa Apartment, Garulia Main Road, Garulia, Kolkata, WEST BENGAL,
+                        743133, Phone: 9330397140</p>
+                    <div class="product-list">
+                        <h5>Expected delivery by 7 May</h5>
+                        <div>
+                            <p>Brinjal(1*2kg)</p>
+                            <p>₹114</p>
+                        </div>
+                    </div>
+                    <div class="total-container">
+                        <h4>Amount: ₹316.5</h3>
+                            <button class="btn">
+                                <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg"
+                                    class="icon">
+                                    <path transform="translate(-2.5 -1.25)"
+                                        d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z"
+                                        id="Fill"></path>
+                                </svg>
+                            </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <img src="/assets/images/logo.png" alt="">
+            <h4>Sabjiiwala | User</h4>
+            <p>Fresh Farm-picked vegies at your doorstep.</p>
+        </div>
+        <hr>
+        <div class="footer-container">
+            <h4>Quick links</h4>
+            <a href="#">Home</a>
+            <a href="#">Search</a>
+            <a href="#">About us</a>
+            <a href="#">Cart</a>
+        </div>
+        <div class="footer-container">
+            <h4>Connect with us</h4>
+            <p>+91 98765 54321</p>
+            <p>info@sabjiiwala.com</p>
+            <div class="social">
+                <img src="/assets/images/icons/facebook.png" alt="">
+                <img src="/assets/images/icons/instagram.png" alt="">
+                <img src="/assets/images/icons/twitter.png" alt="">
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/universal.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+    <script type="module">
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js";
+        import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-storage.js";
+        import { getDatabase, ref, set, child, get, update, remove } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBz9wEi7QGFMIHIurcHoR6A-V9siWMUng",
+            authDomain: "sabjiiwala-ef33d.firebaseapp.com",
+            databaseURL: "https://sabjiiwala-ef33d-default-rtdb.firebaseio.com",
+            projectId: "sabjiiwala-ef33d",
+            storageBucket: "sabjiiwala-ef33d.appspot.com",
+            messagingSenderId: "133860441354",
+            appId: "1:133860441354:web:f29e8953a336bb5d8f4ef3",
+            measurementId: "G-DGXTDJWKM1"
+        };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        var database = getDatabase();
+        var dataRef = ref(database);
+
+        const address_list = document.querySelector("#address-list");
+        get(child(dataRef, "address")).then((snapshot) => {
+            var values = [];
+            snapshot.forEach((element) => {
+            // <div class="indi-item">
+            //     <div class="image-preview">
+            //         <img src="https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dmVnZXRhYmxlfGVufDB8fDB8fHww"
+            //             alt="">
+            //         <img src="https://images.unsplash.com/photo-1566842600175-97dca489844f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dmVnZXRhYmxlfGVufDB8fDB8fHww"
+            //             alt="">
+            //         <img src="https://images.unsplash.com/photo-1445282768818-728615cc910a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHZlZ2V0YWJsZXxlbnwwfHwwfHx8MA%3D%3D"
+            //             alt="">
+            //     </div>
+            //     <div class="product-details">
+            //         <p>436/1/13, Flat-B, 3rd Floor, Aparupa Apartment, Garulia Main Road, Garulia, Kolkata, WEST BENGAL,
+            //             743133, Phone: 9330397140</p>
+            //         <div class="product-list">
+            //             <h5>Expected delivery by 7 May</h5>
+            //             <div>
+            //                 <p>Brinjal(1*2kg)</p>
+            //                 <p>₹114</p>
+            //             </div>
+            //         </div>
+            //         <div class="total-container">
+            //             <h4>Amount: ₹316.5</h3>
+            //                 <button class="btn">
+            //                     <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg"
+            //                         class="icon">
+            //                         <path transform="translate(-2.5 -1.25)"
+            //                             d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z"
+            //                             id="Fill"></path>
+            //                     </svg>
+            //                 </button>
+            //         </div>
+            //     </div>
+            // </div>
+            });
+        });
+    </script>
+</body>
+
+</html>

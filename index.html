@@ -324,17 +324,17 @@
                 price_container.setAttribute('class', 'price-container');
                 var item_type = element.val().Type;
                 let original_price, discount, new_original_price;
-                if(item_type == "gram"){
+                if (item_type == "gram") {
                     original_price = Math.round(element.val().Price * element.val().Base / 1000);
                     discount = element.val().Discount / 100;
                     new_original_price = Math.round(original_price - (original_price * discount));
                     product_base.textContent = element.val().Base + 'g';
-                } else if(item_type == "piece"){
+                } else if (item_type == "piece") {
                     original_price = element.val().Price * element.val().Base;
                     discount = element.val().Discount / 100;
                     new_original_price = Math.round(original_price - (original_price * discount));
                     product_base.textContent = element.val().Base + ' piece';
-                } else if(item_type == "kg"){
+                } else if (item_type == "kg") {
                     original_price = element.val().Price * element.val().Base;
                     discount = element.val().Discount / 100;
                     new_original_price = Math.round(original_price - (original_price * discount));
@@ -481,7 +481,7 @@
                 var quantity = 0;
                 cart_items.forEach(item => {
                     var original_price;
-                    if(item.Type == "gram"){
+                    if (item.Type == "gram") {
                         original_price = Math.round(item.Price * item.Base / 1000);
                     } else {
                         original_price = Math.round(item.Price * item.Base);
